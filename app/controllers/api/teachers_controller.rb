@@ -1,6 +1,5 @@
-class Api::TeachersController < ApplicationController
-  # TODO: API Authentication
-  skip_before_action :verify_authenticity_token
+class Api::TeachersController < Api::ApplicationController
+  before_action :find_teacher, only: [:show, :update, :destroy]
 
   def index
     @teachers = Teacher.all
@@ -18,13 +17,10 @@ class Api::TeachersController < ApplicationController
   end
 
   def show
-    @teacher = Teacher.find(params[:id])
     render json: @teacher
   end
 
   def update
-    @teacher = Teacher.find(params[:id])
-
     if @teacher.update_attributes(teacher_params)
       render nothing: true, status: 204
     else
@@ -33,8 +29,6 @@ class Api::TeachersController < ApplicationController
   end
 
   def destroy
-    @teacher = Teacher.find(params[:id])
-
     if @teacher.destroy
       render nothing: true, status: 204
     else
@@ -45,5 +39,9 @@ class Api::TeachersController < ApplicationController
   private
   def teacher_params
     params.require(:teacher).permit(:personal_number, :name, :is_lecturer, :wage)
+  end
+
+  def find_teacher
+    @teacher = Teacher.find(params[:id])
   end
 end
