@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161217103506) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20170107115447) do
 
   create_table "course_documents", force: :cascade do |t|
-    t.integer "course_id"
-    t.integer "document_id"
-    t.index ["course_id"], name: "index_course_documents_on_course_id", using: :btree
-    t.index ["document_id"], name: "index_course_documents_on_document_id", using: :btree
+    t.integer  "course_id"
+    t.integer  "document_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["course_id"], name: "index_course_documents_on_course_id"
+    t.index ["document_id"], name: "index_course_documents_on_document_id"
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string  "course_code",        null: false
+    t.string  "code",               null: false
+    t.string  "name"
     t.integer "lectures_weekly"
     t.integer "classes_weekly"
     t.integer "lab_classes_weekly"
@@ -38,39 +38,53 @@ ActiveRecord::Schema.define(version: 20161217103506) do
   create_table "group_courses", force: :cascade do |t|
     t.integer "group_id"
     t.integer "course_id"
-    t.index ["course_id"], name: "index_group_courses_on_course_id", using: :btree
-    t.index ["group_id"], name: "index_group_courses_on_group_id", using: :btree
+    t.index ["course_id"], name: "index_group_courses_on_course_id"
+    t.index ["group_id"], name: "index_group_courses_on_group_id"
   end
 
   create_table "groups", force: :cascade do |t|
-    t.integer "teacher_id"
     t.string  "group_number"
     t.integer "student_count"
-    t.index ["teacher_id"], name: "index_groups_on_teacher_id", using: :btree
   end
 
   create_table "teacher_courses", force: :cascade do |t|
     t.integer "teacher_id"
     t.integer "course_id"
-    t.index ["course_id"], name: "index_teacher_courses_on_course_id", using: :btree
-    t.index ["teacher_id"], name: "index_teacher_courses_on_teacher_id", using: :btree
+    t.boolean "is_lecturer", default: false
+    t.index ["course_id"], name: "index_teacher_courses_on_course_id"
+    t.index ["teacher_id"], name: "index_teacher_courses_on_teacher_id"
   end
 
   create_table "teacher_documents", force: :cascade do |t|
+    t.integer  "teacher_id"
+    t.integer  "document_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["document_id"], name: "index_teacher_documents_on_document_id"
+    t.index ["teacher_id"], name: "index_teacher_documents_on_teacher_id"
+  end
+
+  create_table "teacher_group_courses", force: :cascade do |t|
     t.integer "teacher_id"
-    t.integer "document_id"
-    t.index ["document_id"], name: "index_teacher_documents_on_document_id", using: :btree
-    t.index ["teacher_id"], name: "index_teacher_documents_on_teacher_id", using: :btree
+    t.integer "group_id"
+    t.integer "course_id"
+    t.index ["course_id"], name: "index_teacher_group_courses_on_course_id"
+    t.index ["group_id"], name: "index_teacher_group_courses_on_group_id"
+    t.index ["teacher_id"], name: "index_teacher_group_courses_on_teacher_id"
   end
 
   create_table "teachers", force: :cascade do |t|
-    t.string   "personal_number"
     t.string   "name"
-    t.boolean  "is_lecturer",     default: false
-    t.float    "wage"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.string   "email"
+    t.integer  "wage_category_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["wage_category_id"], name: "index_teachers_on_wage_category_id"
   end
 
-  add_foreign_key "groups", "teachers"
+  create_table "wage_categories", force: :cascade do |t|
+    t.string "title"
+    t.float  "wage_per_hour"
+  end
+
 end

@@ -1,0 +1,22 @@
+<h1>Skupiny</h1>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <td>Číslo skupiny</td>
+    <td>Počet študentov</td>
+    <td colspan="2" align="center">Akcie</td>
+  </thead>
+
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td><%= group.group_number %></td>
+        <td><%= group.student_count %></td>
+        <td><%= link_to "Upraviť", edit_group_path(group) %></td>
+        <td><%= link_to "Vymazať", group, method: :delete, data: { confirm: "Ste si istý?"} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Pridať skupinu", new_group_path %>

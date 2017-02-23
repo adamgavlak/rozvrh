@@ -1,0 +1,27 @@
+<h1>Dokumenty - <span style="font-weight: 400"><%= @teacher.name %></span></h1>
+
+<hr>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <td>Názov</td>
+    <td>Dátum vytvorenia</td>
+    <td>Odoslané e-mailom</td>
+    <td colspan="3" align="center">Akcie</td>
+  </thead>
+
+  <tbody>
+  <% @teacher.documents.each do |doc| %>
+      <tr>
+        <td><%= doc.filename %></td>
+        <td> doc.created_at %></td>
+        <td>Nie</td>
+        <td align="center"><%= link_to "Zobraziť", teacher_report_url(@teacher.id, doc.id) %></td>
+        <td align="center"><%= link_to "Odoslať e-mailom", "#", class: 'disabled' %></td>
+        <td align="center"><%= link_to "Vymazať", teacher_report_url(@teacher.id, doc.id), method: :delete %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Vygenerovať aktuálnu zostavu", teacher_reports_path, method: :post, class: "btn btn-primary" %>

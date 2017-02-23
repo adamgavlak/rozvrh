@@ -1,0 +1,34 @@
+<%= form_for group do |f| %>
+    <% if group.errors.any? %>
+        <div id="error_detail">
+          Nastala chyba
+        </div>
+    <% end %>
+
+    <div class="form-group">
+        <%= f.label "Číslo skupiny" %>
+        <%= f.text_field :group_number, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+        <%= f.label "Počet študentov" %>
+        <%= f.text_field :student_count, class: "form-control" %>
+    </div>
+
+    <h3>Predmety skupiny</h3>
+
+    <div class="form-group">
+        <%= f.collection_check_boxes(:course_ids, Course.all, :id, :name) do |b| %>
+          <div class="checkbox">
+            <%= b.label do %>
+              <%= b.check_box(class: "checkbox") %>
+              <%= b.object.name %>
+            <% end %>
+          </div>
+        <% end %>
+    </div>
+
+    <div class="actions pull-right">
+      <%= f.submit "Uložiť skupinu", class: "btn btn-primary" %>
+    </div>
+<% end %>

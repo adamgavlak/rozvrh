@@ -1,0 +1,38 @@
+<%= form_for course do |f| %>
+    <% if course.errors.any? %>
+        <div id="error_detail">
+          Nastala chyba
+        </div>
+    <% end %>
+
+    <div class="form-group">
+        <%= f.label "Kód predmetu" %>
+        <%= f.text_field :code, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+        <%= f.label "Meno predmetu" %>
+        <%= f.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-xs-4">
+          <%= f.label "Prednášky týždenne" %>
+          <%= f.number_field :lectures_weekly, class: "form-control" %>
+        </div>
+
+        <div class="col-xs-4">
+          <%= f.label "Cvičenia týždenne" %>
+          <%= f.number_field :classes_weekly, class: "form-control" %>
+        </div>
+
+        <div class="col-xs-4">
+          <%= f.label "Laboratórne cvičenia týždenne" %>
+          <%= f.number_field :lab_classes_weekly, class: "form-control" %>
+        </div>
+    </div>
+
+    <div class="actions form-group pull-right">
+      <%= f.submit "Uložiť predmet", class: "btn btn-primary" %>
+    </div>
+<% end %>

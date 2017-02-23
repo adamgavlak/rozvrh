@@ -1,0 +1,30 @@
+<h1>Vyučujúci</h1>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <td>Meno</td>
+    <td>Email</td>
+    <td>Kategória úväzku</td>
+    <td colspan="4" align="center">Akcie</td>
+  </thead>
+
+  <tbody>
+    <% @teachers.each do |teacher| %>
+      <tr>
+        <td><%= teacher.name %></td>
+        <td><%= teacher.email %></td>
+        <td><%= teacher.wage_category.title %></td>
+        <td align="center">
+          <%= link_to teacher do %>
+            <span class="glyphicon glyphicon-zoom"></span> Zobraziť
+          <% end %>
+        </td>
+        <td align="center"><%= link_to "Dokumenty", teacher_reports_path(teacher) %></td>
+        <td align="center"><%= link_to "Upraviť", edit_teacher_path(teacher) %></td>
+        <td align="center"><%= link_to "Vymazať", teacher, method: :delete, data: { confirm: "Ste si istý?"} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Pridať vyučujúceho", new_teacher_path %>

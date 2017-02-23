@@ -1,0 +1,66 @@
+<h1>Prehľad vyučujúceho</h1>
+
+<hr>
+
+<h3>Osobné údaje</h3>
+<ul class="list-unstyled">
+  <li><strong>Meno:</strong> <%= @teacher.name %></li>
+  <li><strong>Email:</strong> <%= @teacher.email %></li>
+  <li><strong>Typ úväzku:</strong> <%= @teacher.wage_category.title %></li>
+</ul>
+
+<hr>
+
+<h3>Prehľad vyučovaných hodín</h3>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <td>Predmet</td>
+        <td>Činnosť</td>
+        <td align="right">Trvanie (v hodinách)</td>
+        <td align="right">Spolu</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @teacher.teacher_courses.each do |tc| %>
+        <% if tc.is_lecturer %>
+          <tr>
+            <td><%= tc.course.name %></td>
+            <td>Prednáška</td>
+            <td align="right"><%= tc.course.lectures_weekly %></td>
+            <td align="right"><%= tc.course.lectures_weekly * @teacher.wage_category.wage_per_hour * 4 %></td>
+          </tr>
+        <% end %>
+
+        <% tc.course.groups.each do |group| %>
+          <% if group.teacher_group_courses?(@teacher.id, tc.course_id) %>
+            <% if tc.course.classes_weekly > 0 %>
+              <tr>
+                <td><%= tc.course.name %></td>
+                <td>Cvičenie, skupina <%= group.group_number %></td>
+                <td align="right"><%= tc.course.classes_weekly %></td>
+                <td align="right"><%= tc.course.classes_weekly * @teacher.wage_category.wage_per_hour * 2 %></td>
+              </tr>
+            <% end %>
+
+            <% if tc.course.lab_classes_weekly > 0 %>
+              <tr>
+                <td><%= tc.course.name %></td>
+                <td>Laboratórne cvičenie, skupina <%= group.group_number %></td>
+                <td align="right"><%= tc.course.lab_classes_weekly %></td>
+                <td align="right"><%= tc.course.lab_classes_weekly * @teacher.wage_category.wage_per_hour * 2 %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+<span class="pull-right">
+  <strong>Spolu: </strong>
+
+  <%= @total %>
+</span>

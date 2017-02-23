@@ -1,0 +1,28 @@
+<h1>Predmety</h1>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <td>Kód</td>
+    <td>Meno</td>
+    <td>Prednášky</td>
+    <td>Cvičenia</td>
+    <td>Lab. cvičenia</td>
+    <td colspan="2" align="center">Akcie</td>
+  </thead>
+
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.code %></td>
+        <td><%= course.name %></td>
+        <td><%= course.lectures_weekly %></td>
+        <td><%= course.classes_weekly %></td>
+        <td><%= course.lab_classes_weekly %></td>
+        <td><%= link_to "Upraviť", edit_course_path(course) %></td>
+        <td><%= link_to "Vymazať", course, method: :delete, data: { confirm: "Ste si istý?"} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Pridať predmet", new_course_path %>

@@ -1,0 +1,56 @@
+<h1>Prehlad vyucujuceho</h1>
+
+<ul>
+  <% @teacher.teacher_courses.each do |teacher_course| %>
+      <li>
+        <%= teacher_course.course.name %>
+        <table>
+          <% if teacher_course.is_lecturer %>
+              <tr>
+                <td>
+                  prednášky -
+                </td>
+                <td>
+                  <%= teacher_course.course.lectures_weekly %> hodiny
+                </td>
+              </tr>
+          <% end %>
+
+          <% teacher_course.course.groups.each do |group| %>
+              <!-- Cvicenia pre kazdu vyucovanu skupinu -->
+              <% if group.teacher_group_courses?(@teacher.id, teacher_course.course_id) %>
+                  <% if teacher_course.course.classes_weekly > 0 %>
+                      <tr>
+                        <td>
+                          cvicenie
+                        </td>
+                        <td>
+                          <%= group.group_number %>
+                        </td>
+                        <td>
+                          <%= teacher_course.course.classes_weekly %>
+                        </td>
+                      </tr>
+                  <% end %>
+
+                  <!-- Laboratorne cvicenia pre kazdu vyucovanu skupinu -->
+                  <% if teacher_course.course.lab_classes_weekly > 0 %>
+                      <tr>
+                        <td>
+                          lab. cvicenie -
+                        </td>
+                        <td>
+                          <%= group.group_number %> -
+                        </td>
+                        <td>
+                          <%= teacher_course.course.lab_classes_weekly %> hodiny
+                        </td>
+                      </tr>
+                  <% end %>
+              <% end %>
+          <% end %>
+        </table>
+      </li>
+      <hr>
+  <% end %>
+</ul>

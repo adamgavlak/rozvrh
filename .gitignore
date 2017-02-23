@@ -15,3 +15,9 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+/pdfs/*
+!/pdfs/.keep
+
+/db/development.sqlite3
+/db/test.sqlite3
