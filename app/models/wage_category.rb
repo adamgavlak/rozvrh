@@ -1,5 +1,5 @@
 class WageCategory < ApplicationRecord
-  has_many :teachers
+  has_many :teachers, dependent: :restrict_with_error
 
   # Migration
   # t.string :title

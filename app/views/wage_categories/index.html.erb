@@ -1,5 +1,13 @@
 <h1>Kategórie úväzkov</h1>
 
+<% if @wage_category.present? %>
+    <div class="alert alert-danger">
+      <% @wage_category.errors.full_messages.each do |message| %>
+        Kategória "<%= @wage_category.title %>" <%= message %>
+      <% end %>
+    </div>
+<% end %>
+
 <table class="table table-striped table-bordered">
   <thead>
     <tr>

@@ -36,10 +36,13 @@ class WageCategoriesController < ApplicationController
   end
 
   def destroy
-    @wage_category.destroy
-
-    flash[:notice] = "Kategória úvazkov - #{@wage_category.title} bola vymazaná"
-    redirect_to wage_categories_path
+    if @wage_category.destroy
+      flash[:notice] = "Kategória úvazkov - #{@wage_category.title} bola vymazaná"
+      redirect_to wage_categories_path
+    else
+      @wage_categories = WageCategory.all
+      render :index
+    end
   end
 
   private

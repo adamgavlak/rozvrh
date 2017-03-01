@@ -7,6 +7,8 @@ sk:
       required: "musí byť zvolený"
       not_a_number: "musí byť číslo"
       greater_than_or_equal_to: "musí byť väčšia alebo rovná 0"
+      restrict_dependent_destroy:
+        has_many: "nemôže byť vymazaná pretože je priradená niektorým vyučujúcich"
 
   activerecord:
     attributes:
