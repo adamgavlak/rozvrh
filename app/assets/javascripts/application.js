@@ -12,22 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require turbolinks
+//= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
 
-console.log(5)
-
-$(document).ready(function() {
-    $("")
+$(document).on('turbolinks:load', function() {
 
     $(".teacher-course-group").on('click', function () {
         var teacherID = $(this).data('teacher')
         var courseID = $(this).data('course')
         var groupID = $(this).data('group')
         var status = $(this).is(':checked')
-
-        console.log(status)
 
         if (status) {
             $.post("/api/teacher/group/course", {
