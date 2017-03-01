@@ -20,8 +20,8 @@ class Course < ApplicationRecord
   # Validations
   validates :code, presence: true
   validates :name, presence: true
-  validates :lectures_weekly, presence: true
-  validates :classes_weekly, presence: true
-  validates :lab_classes_weekly, presence: true
+  validates :lectures_weekly, presence: true, numericality: {greater_than_or_equal_to: 0}
+  validates :classes_weekly, presence: true, numericality: {greater_than_or_equal_to: 0}
+  validates :lab_classes_weekly, presence: true, numericality: {greater_than_or_equal_to: 0}
 
 end
