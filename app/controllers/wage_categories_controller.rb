@@ -12,11 +12,11 @@ class WageCategoriesController < ApplicationController
   def create
     @wage_category = WageCategory.new(wage_category_params)
 
-    if @wage_category.save!
+    if @wage_category.save
       flash[:notice] = "Kategória úvazkov - #{@wage_category.title} bola úspešne vytvorená"
       redirect_to wage_categories_path
     else
-      render 'new'
+      render :new
     end
   end
 

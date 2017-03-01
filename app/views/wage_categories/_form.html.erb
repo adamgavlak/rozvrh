@@ -1,9 +1,5 @@
 <%= form_for wage_category do |f| %>
-    <% if wage_category.errors.any? %>
-        <div class="error_detail">
-          Nastala chyba
-        </div>
-    <% end %>
+    <%= render 'layouts/errors', model: wage_category %>
 
     <div class="form-group">
       <%= f.label "Názov" %>

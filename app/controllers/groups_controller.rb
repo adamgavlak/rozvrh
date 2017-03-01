@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
 
-    if @group.save!
+    if @group.save
       flash[:notice] = "Skupina #{@group.group_number} bola úspešne vytvorená"
       redirect_to groups_path
     else

@@ -1,9 +1,5 @@
 <%= form_for course do |f| %>
-    <% if course.errors.any? %>
-        <div id="error_detail">
-          Nastala chyba
-        </div>
-    <% end %>
+    <%= render 'layouts/errors', model: course %>
 
     <div class="form-group">
         <%= f.label "Kód predmetu" %>

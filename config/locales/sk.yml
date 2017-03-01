@@ -1,0 +1,32 @@
+sk:
+  hello: "Hello world"
+
+  errors:
+    messages:
+      blank: "nesmie byť prázdne"
+      required: "musí byť zvolený"
+
+  activerecord:
+    attributes:
+      course:
+        code: "Kód predmetu"
+        name: "Meno predmetu"
+        lectures_weekly: "Prednášky týždenne"
+        classes_weekly: "Cvičenia týždenne"
+        lab_classes_weekly: "Lab. cvičenia týždenne"
+      wage_category:
+        title: "Názov"
+        wage_per_hour: "Hodinová mzda"
+      group:
+        group_number: "Číslo skupiny"
+      teacher:
+        wage_category: "Typ úväzku"
+        name: "Meno a priezvisko"
+        email: "Email"
+
+
+
+    errors:
+      blank: "nesmie byť prázdny"
+      models:
+        wage_category:

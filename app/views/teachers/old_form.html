@@ -1,0 +1,33 @@
+<div class="form-group">
+    <h3>Vyučované predmety</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <td colspan="2">Predmet</td>
+        <td>Je prednášajúci</td>
+        </thead>
+        <%= f.collection_check_boxes(:course_ids, Course.all, :id, :name) do |c| %>
+        <tr>
+            <td align="center" valign="middle">
+                <%= c.check_box(class: "checkbox") %>
+            </td>
+            <td>
+                <%= c.label %>
+                <br>
+                Skupiny:
+                <% c.object.groups.each do |gr| %>
+                <label>
+                    <% if TeacherGroupCourse.where(teacher_id: teacher.id, course_id: c.object.id, group_id: gr.id).first %>
+                    <input type="checkbox" class="teacher-course-group" data-teacher="<%= teacher.id %>" data-course="<%= c.object.id %>" data-group="<%= gr.id %>" checked="checked"> <%= gr.group_number %>
+                    <% else %>
+                    <input type="checkbox" class="teacher-course-group" data-teacher="<%= teacher.id %>" data-course="<%= c.object.id %>" data-group="<%= gr.id %>"> <%= gr.group_number %>
+                    <% end %>
+                </label>
+                <% end %>
+            </td>
+            <td align="center" valign="middle">
+                <%= check_box_tag "teacher[lecturer_ids][]", c.object.id, teacher.lecturer_ids.include?(c.object.id) %>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+</div>

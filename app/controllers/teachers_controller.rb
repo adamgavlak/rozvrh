@@ -13,7 +13,7 @@ class TeachersController < ApplicationController
   def create
     @teacher = Teacher.new(teacher_params)
 
-    if @teacher.save!
+    if @teacher.save
       update_lecturer_status()
       flash[:notice] = "Vyučujúci #{@teacher.name} bol úspešne vytvorený"
       redirect_to @teacher

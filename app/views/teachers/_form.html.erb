@@ -1,9 +1,5 @@
 <%= form_for teacher do |f| %>
-    <% if teacher.errors.any? %>
-        <div id="error_detail">
-          Nastala chyba
-        </div>
-    <% end %>
+    <%= render 'layouts/errors', model: teacher %>
 
     <div class="form-group">
         <%= f.label "Meno a priezvisko" %>

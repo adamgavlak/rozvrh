@@ -12,7 +12,7 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(course_params)
 
-    if @course.save!
+    if @course.save
       flash[:notice] = "Predmet #{@course.name} bol úspešne vytvorený"
       redirect_to courses_path
     else
