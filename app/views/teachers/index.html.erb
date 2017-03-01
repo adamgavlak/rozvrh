@@ -21,11 +21,19 @@
         </td>
         <td align="center">
           <%= link_to teacher_reports_path(teacher) do %>
-            <span class="glyphicon glyphicon-file"></span> História úväzkov
+            <span class="glyphicon glyphicon-folder-open"></span> História úväzkov
           <% end %>
         </td>
-        <td align="center"><%= link_to "Upraviť", edit_teacher_path(teacher) %></td>
-        <td align="center"><%= link_to "Vymazať", teacher, method: :delete, data: { confirm: "Ste si istý?"} %></td>
+        <td align="center">
+          <%= link_to edit_teacher_path(teacher) do %>
+            <span class="glyphicon glyphicon-pencil"></span> Upraviť
+          <% end %>
+        </td>
+        <td align="center">
+          <%= link_to teacher, method: :delete, data: { confirm: "Ste si istý?"} do %>
+            <span class="glyphicon glyphicon-trash"></span> Vymazať
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

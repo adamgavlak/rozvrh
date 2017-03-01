@@ -5,6 +5,8 @@ sk:
     messages:
       blank: "nesmie byť prázdne"
       required: "musí byť zvolený"
+      not_a_number: "musí byť číslo"
+      greater_than_or_equal_to: "musí byť väčšia alebo rovná 0"
 
   activerecord:
     attributes:
@@ -19,6 +21,7 @@ sk:
         wage_per_hour: "Hodinová mzda"
       group:
         group_number: "Číslo skupiny"
+        student_count: "Počet študentov"
       teacher:
         wage_category: "Typ úväzku"
         name: "Meno a priezvisko"

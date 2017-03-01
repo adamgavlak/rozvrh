@@ -1,8 +1,8 @@
 <% if model.errors.any? %>
     <div class="alert alert-danger">
-      <ul>
+      <ul class="list-unstyled">
         <% model.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
+            <li><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= message %></li>
         <% end %>
       </ul>
     </div>

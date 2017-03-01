@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <td>Názov</td>
-      <td>Hodinový úväzok</td>
+      <td align="right">Hodinový úväzok</td>
       <td colspan="2" align="center">Akcie</td>
     </tr>
   </thead>
@@ -13,14 +13,13 @@
     <% @wage_categories.each do |category| %>
       <tr>
         <td><%= category.title %></td>
-        <td><%= category.wage_per_hour %></td>
-        <td>
+        <td align="right"><%= category.wage_per_hour %></td>
+        <td align="center">
           <%= link_to edit_wage_category_path(category) do %>
               <span class="glyphicon glyphicon-pencil"></span> Upraviť
           <% end %>
-
         </td>
-        <td>
+        <td align="center">
           <%= link_to category, method: :delete, data: {confirm: "Ste si istý?"} do %>
               <span class="glyphicon glyphicon-trash"></span> Vymazať
           <% end %>

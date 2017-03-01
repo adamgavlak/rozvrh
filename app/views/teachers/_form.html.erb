@@ -21,14 +21,14 @@
       <table class="table table-striped table-bordered">
         <thead>
         <td colspan="2">Predmet</td>
-        <td>Je prednášajúci</td>
+        <td align="center">Je prednášajúci</td>
         </thead>
         <%= f.collection_check_boxes(:course_ids, Course.all, :id, :name) do |c| %>
             <tr>
-              <td align="center" valign="middle">
+              <td align="center" class="course--checkbox">
                 <%= c.check_box(class: "checkbox") %>
               </td>
-              <td>
+              <td class="course--checkbox">
                 <%= c.label %>
                 <br>
                 <% if @teacher.courses.include?(c.object) %>
@@ -44,7 +44,7 @@
                   <% end %>
                 <% end %>
               </td>
-              <td align="center" valign="middle">
+              <td align="center" class="course--checkbox">
                 <%= check_box_tag "teacher[lecturer_ids][]", c.object.id, teacher.lecturer_ids.include?(c.object.id) %>
               </td>
             </tr>

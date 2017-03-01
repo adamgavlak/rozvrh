@@ -3,7 +3,7 @@
 <table class="table table-striped table-bordered">
   <thead>
     <td>Číslo skupiny</td>
-    <td>Počet študentov</td>
+    <td align="right">Počet študentov</td>
     <td colspan="2" align="center">Akcie</td>
   </thead>
 
@@ -11,9 +11,17 @@
     <% @groups.each do |group| %>
       <tr>
         <td><%= group.group_number %></td>
-        <td><%= group.student_count %></td>
-        <td><%= link_to "Upraviť", edit_group_path(group) %></td>
-        <td><%= link_to "Vymazať", group, method: :delete, data: { confirm: "Ste si istý?"} %></td>
+        <td align="right"><%= group.student_count %></td>
+        <td align="center">
+          <%= link_to edit_group_path(group) do %>
+            <span class="glyphicon glyphicon-pencil"></span> Upraviť
+          <% end %>
+        </td>
+        <td align="center">
+          <%= link_to group, method: :delete, data: { confirm: "Ste si istý?"} do %>
+            <span class="glyphicon glyphicon-trash"></span> Vymazať
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
