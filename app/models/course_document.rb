@@ -1,4 +1,4 @@
 class CourseDocument < ApplicationRecord
-  belongs_to :course
-  belongs_to :document
+  belongs_to :course, dependent: :destroy
+  belongs_to :document, dependent: :destroy
 end

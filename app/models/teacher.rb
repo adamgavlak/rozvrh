@@ -10,6 +10,15 @@ class Teacher < ApplicationRecord
 
   belongs_to :wage_category
 
+  # Migration
+  # t.string :name
+  # t.string :email
+  # t.references :wage_category
+  # t.timestamps
+
+  validates :name, presence: true
+  validates :email, presence: true
+
   def lecturer_ids
     ids = self.teacher_courses.select{ |c| c.is_lecturer }.map{|i| i.course_id}
   end
