@@ -1,0 +1,63 @@
+<h1>Užívateľská príručka</h1>
+
+<h3>Dáta aplikácie</h3>
+<p>
+  Pred normálnym chodom aplikácie je potrebné najprv naplniť databázu údajmi o katedre.
+  <strong>Údaje je možno pridávať v akomkoľvek poradí</strong>, avšak v navigácii navrchu som zvolil poradie,
+  ktoré je podľa mňa najefektívnejšie podľa toho ktoré údaje sa najčastejšie pridávajú.
+  Pri zmenách jednotlivých údajov na tom až tak nezáleží.
+</p>
+
+<h3>Najlepšie poradie pridávania údajov (od najmenej pridávaného po najviac):</h3>
+<p>
+  <ul>
+    <li>Kategórie úväzkov</li>
+    <li>Predmety</li>
+    <li>Skupiny</li>
+    <li>Vyučujúci</li>
+  </ul>
+</p>
+
+<h3>Vyučované predmety</h3>
+<p>
+  Ak máme vytvorené predmety, skupiny a kategórie úväzkov tak môžeme začať priraďovať predmety vyučujúcim.
+  Pri pridávaní alebo upravovaní vyučujúceho môžeme zvoliť, ktorý predmet vyučuje v ľavom stĺpci.
+
+  <div class="alert alert-info">Ak je vyučujúci prednášajúci daného predmetu zaškrtneme aj položku v stĺpci "Je vyučujúci" </div>
+
+  Po tejto operácii musíme vyučjúceho uložiť.
+
+  Neskôr pri úprave môžeme zaškrtnúť, ktoré skupiny daného predmetu vyučuje.
+</p>
+
+<h3>Generovanie zostáv pre vyučujúcich</h3>
+
+<p>
+  Potom ako je databáza naplnená, môžu sa generovať prehľady pre jednotlivých vyučujúcich nasledovne:
+
+  <ol>
+    <li>V tabuľke učiteľov si zvolíme učiteľa pre ktorého chceme prehľad generovať</li>
+    <li>V jeho riadku klikneme na "Históriu úväzkov"</li>
+    <li>Zobrazí sa nám zoznam už vygenerovaných prehľadov</li>
+    <li>Klikneme na "Vygenerovať aktuálnu zostavu"</li>
+    <li>Po jej skontrolovaní sa môžeme vrátiť o stránku späť</li>
+    <li>V zozname sa objaví nová zostava alebo ak existuje zostava s rovnakým dátumom vytvorenia tak sa prepíše.</li>
+  </ol>
+
+  Ak chceme odoslať vygenerovanú zostavu poslať vyučujúcemu stačí kliknúť na "Odoslať emailom", vyplniť predmet a text emailu, pričom zvolená zostava bude automaticky pridaná ako príloha emailu.
+</p>
+
+<h3>Odosielanie emailov</h3>
+<p class="alert alert-success">
+  Pokiaľ je aplikácia v testovaní, tak je odosielanie emailov simulované (žiadne emaily sa na skutočné emailové adresy neodošlú). Preto je možné testovať odosielanie emailov jednotlivým vyučujúcim bez obáv.
+</p>
+
+<h3>Chyby a pripomienky</h3>
+<p>
+  Aplikácia je priravená na prevádzku, ale môže sa stať že sa vyskytne chyba. Ak sa chyba vyskytne, alebo máte nápad na vylepšenie funkcionality, poprosil by som vás keby ste ma kontaktovali na môj email
+  <strong><%= link_to "gavlak.a@gmail.com", "mailto:gavlak.a@gmail.com" %></strong> aby som mohol chybu opraviť, prípadne implementovať dodatočnú funkcionalitu :)
+</p>
+
+<p>
+  Ďakujem
+</p>

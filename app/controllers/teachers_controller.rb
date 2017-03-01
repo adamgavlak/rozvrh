@@ -52,6 +52,7 @@ class TeachersController < ApplicationController
   def update
     if @teacher.update_attributes(teacher_params)
       update_lecturer_status()
+      update_teacher_group_courses()
       flash[:notice] = "Vyučujúci #{@teacher.name} bol upravený"
       redirect_to edit_teacher_path(@teacher)
     else
@@ -98,7 +99,11 @@ class TeachersController < ApplicationController
   end
 
   def update_teacher_group_courses
-    params[:teacher][:teacher_group_courses]
+    @teacher.teacher_group_courses.each do |tgc|
+      if !@teacher.course_ids.include?(tgc.course_id)
+        tgc.destroy
+      end
+    end
   end
 
   # t.string :personal_number

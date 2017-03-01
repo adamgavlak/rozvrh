@@ -22,17 +22,18 @@ ActiveRecord::Schema.define(version: 20170107115447) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string  "code",               null: false
+    t.string  "code",                           null: false
     t.string  "name"
-    t.integer "lectures_weekly"
-    t.integer "classes_weekly"
-    t.integer "lab_classes_weekly"
+    t.integer "lectures_weekly",    default: 0
+    t.integer "classes_weekly",     default: 0
+    t.integer "lab_classes_weekly", default: 0
   end
 
   create_table "documents", force: :cascade do |t|
-    t.string  "filename"
-    t.string  "filepath"
-    t.integer "sent_count", default: 0
+    t.string   "filename"
+    t.integer  "sent_count", default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "group_courses", force: :cascade do |t|
@@ -56,10 +57,8 @@ ActiveRecord::Schema.define(version: 20170107115447) do
   end
 
   create_table "teacher_documents", force: :cascade do |t|
-    t.integer  "teacher_id"
-    t.integer  "document_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer "teacher_id"
+    t.integer "document_id"
     t.index ["document_id"], name: "index_teacher_documents_on_document_id"
     t.index ["teacher_id"], name: "index_teacher_documents_on_teacher_id"
   end

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rozvrh</title>
+    <title>Podpora katedrových rozvrhov KMMOA</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -12,7 +12,11 @@
     <header>
       <nav class="navbar navbar-default">
         <div class="container">
+          <div class="navbar-header">
+            <a href="/" class="navbar-brand">Podpora rozvrhov KMMOA</a>
+          </div>
           <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Užívateľská príručka", root_url %></li>
             <li><%= link_to "Kategórie úväzkov", wage_categories_path %></li>
             <li><%= link_to "Predmety", courses_path %></li>
             <li><%= link_to "Skupiny", groups_path %></li>

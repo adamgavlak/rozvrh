@@ -1,0 +1,29 @@
+<h1>Odoslať prehľad úväzku emailom</h1>
+
+<h4>
+  <strong>Príjemca:</strong>
+  <span style="font-weight: 400"><%= @teacher.name %> <%= '<' %><%= @teacher.email %><%= '>' %></span>
+</h4>
+
+<hr>
+
+<%= form_tag teacher_report_email_url do %>
+    <div class="form-group">
+        <%= label_tag :subject, "Predmet emailu" %>
+        <%= text_field_tag :subject, "", {class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :body, "Text emailu" %>
+      <%= text_area_tag :body, "", {class: "form-control"} %>
+    </div>
+
+    <div class="form-group">
+      Príloha: <%= link_to @document.filename, teacher_report_path(@teacher.id, @document.id), target: "_blank" %>
+    </div>
+
+    <div class="form-group">
+
+      <%= submit_tag "Odoslať prehľad úväzku na #{@teacher.email}", class: "btn btn-primary pull-right" %>
+    </div>
+<% end %>

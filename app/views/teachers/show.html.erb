@@ -19,7 +19,7 @@
         <td>Predmet</td>
         <td>Činnosť</td>
         <td align="right">Trvanie (v hodinách)</td>
-        <td align="right">Spolu</td>
+        <td align="right">Mzda</td>
       </tr>
     </thead>
 
@@ -57,10 +57,11 @@
         <% end %>
       <% end %>
     </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="3" align="right"><strong>Spolu:</strong></td>
+        <td align="right"><%= @total %></td>
+      </tr>
+    </tfoot>
   </table>
-
-<span class="pull-right">
-  <strong>Spolu: </strong>
-
-  <%= @total %>
-</span>

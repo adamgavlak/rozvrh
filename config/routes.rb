@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root "pages#index"
+
   # Back-end JSON API
   namespace :api do
     # resources :teachers
@@ -15,7 +17,10 @@ Rails.application.routes.draw do
   resources :courses
   resources :groups
   resources :teachers do
-    resources :reports, controller: "teacher_reports"
+    resources :reports, controller: "teacher_reports" do
+      get "/email", to: "teacher_reports#email"
+      post "/email", to: "teacher_reports#email_send"
+    end
   end
 
 

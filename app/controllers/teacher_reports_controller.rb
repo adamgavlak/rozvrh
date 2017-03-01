@@ -36,13 +36,36 @@ class TeacherReportsController < ApplicationController
       end
     end
 
-    @teacher.documents << Document.create(filename: filename, filepath: "/pdfs")
+    if (! Document.find_by(filename: filename).present?)
+      @teacher.documents << Document.create(filename: filename)
+    end
 
     render pdf: filename,
            layout: 'pdf',
            template: 'teachers/show',
            encoding: 'utf-8',
            save_to_file: Rails.root.join('pdfs', filename)
+  end
+
+  def email
+    @teacher = Teacher.find(params[:teacher_id])
+    @document = Document.find(params[:report_id])
+  end
+
+  def email_send
+    @teacher = Teacher.find(params[:teacher_id])
+    @document = Document.find(params[:report_id])
+    @body = params[:body]
+    @subject = params[:subject]
+
+    ReportMailer.mail_teacher_report(@teacher, @document, @subject, @body).deliver_later
+
+    @document.sent_count += 1
+    @document.save
+
+    flash[:notice] = "Email bol úspešne odoslaný"
+
+    redirect_to teacher_reports_path
   end
 
   def destroy
