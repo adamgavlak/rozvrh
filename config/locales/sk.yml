@@ -87,6 +87,4 @@ sk:
         expired: "vypršal, prosím vyžiadajte si nový"
         not_found: "nebol nájdený"
         not_locked: "nebol zamknutý"
-        not_saved:
-          one: "jedna chyba zabránila uloženie:"
-          other: "%{count} chýb chyba zabránilo uloženie:"
+        not_saved: "Nastavenia neboli uložené kvôli nasledujúcim chybám:"

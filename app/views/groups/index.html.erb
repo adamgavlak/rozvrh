@@ -1,10 +1,15 @@
-<header style="margin: 1em 0 2em">
-  <h1 style="display: inline">Skupiny</h1>
+<header class="info-header">
+  <h1>Skupiny</h1>
   <%= link_to "Pridať novú skupinu", new_group_path, class: 'btn btn-primary pull-right' %>
 </header>
 
-<% @left,@right = @groups.each_slice((@groups.size/2.0).round).to_a %>
+<hr>
 
+<% if @groups.size > 4 %>
+  <% @left,@right = @groups.each_slice((@groups.size/2.0).round).to_a %>
+<% end %>
+
+<% if @groups.size > 4 %>
 <div class="double-table">
   <table class="table table-striped table-bordered">
     <thead>
@@ -15,7 +20,7 @@
     <tbody>
       <% @left.each do |group| %>
         <tr>
-          <td><strong><%= group.group_number %></strong></td>
+          <td><%= group.group_number %></td>
           <td align="center">
             <%= link_to edit_group_path(group) do %>
               <span class="glyphicon glyphicon-pencil"></span> Upraviť
@@ -40,7 +45,7 @@
     <tbody>
     <% @right.each do |group| %>
       <tr>
-        <td><strong><%= group.group_number %></strong></td>
+        <td><%= group.group_number %></td>
         <td align="center">
           <%= link_to edit_group_path(group) do %>
             <span class="glyphicon glyphicon-pencil"></span> Upraviť
@@ -56,3 +61,29 @@
     </tbody>
   </table>
 </div>
+<% else %>
+  <table class="table table-striped table-bordered">
+    <thead>
+    <td>Číslo skupiny</td>
+    <td colspan="2" align="center">Akcie</td>
+    </thead>
+
+    <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td><%= group.group_number %></td>
+        <td align="center">
+          <%= link_to edit_group_path(group) do %>
+            <span class="glyphicon glyphicon-pencil"></span> Upraviť
+          <% end %>
+        </td>
+        <td align="center">
+          <%= link_to group, method: :delete, data: { confirm: "Ste si istý?"} do %>
+            <span class="glyphicon glyphicon-trash"></span> Vymazať
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

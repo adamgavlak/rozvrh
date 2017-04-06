@@ -1,4 +1,9 @@
-<h1>Predmety</h1>
+<header class="info-header">
+  <h1>Predmety</h1>
+  <%= link_to "Pridať predmet", new_course_path, class: 'btn btn-primary pull-right' %>
+</header>
+
+<hr>
 
 <table class="table table-striped table-bordered">
   <thead>
@@ -37,5 +42,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to "Pridať predmet", new_course_path %>
