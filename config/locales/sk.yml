@@ -4,6 +4,7 @@ sk:
   errors:
     messages:
       blank: "nesmie byť prázdne"
+      taken: "už existuje"
       required: "musí byť zvolený"
       not_a_number: "musí byť číslo"
       greater_than_or_equal_to: "musí byť väčšia alebo rovná 0"
@@ -28,8 +29,8 @@ sk:
 
     errors:
       blank: "nesmie byť prázdny"
-      models:
-        wage_category:
+      taken: "už existuje"
+
 
   devise:
     confirmations:
