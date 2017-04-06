@@ -23,22 +23,24 @@ class TeachersController < ApplicationController
     end
   end
 
-
   def show
     @total = 0
-    @lecture = Multiplier.find_by(name: 'Prednáška').value
-    @classes = Multiplier.find_by(name: 'Cvičenie').value
-    @labs = Multiplier.find_by(name: 'Laboratórne cvičenie').value
+    multipliers = Multiplier.all()
+    @lecture = multipliers.find { |el| el.name == 'Prednáška'}.value
+    @classes = multipliers.find { |el| el.name == 'Cvičenie'}.value
+    @labs = multipliers.find { |el| el.name == 'Laboratórne cvičenie'}.value
+    @weeks = 13
 
     @teacher.teacher_courses.each do |tc|
       if tc.is_lecturer
-        @total += tc.course.lectures_weekly * @lecture
+        @total += tc.course.lectures_weekly * @lecture * @weeks
       end
 
       tc.course.groups.each do |group|
-        if group.teacher_group_courses?(@teacher.id, tc.course_id)
-          @total += tc.course.classes_weekly * @classes
-          @total += tc.course.lab_classes_weekly * @labs
+        # if group.teacher_group_courses?(@teacher.id, tc.course_id)
+        if @teacher.teacher_group_courses.any? { |el| el.group_id == group.id && el.course_id == tc.course_id }
+          @total += tc.course.classes_weekly * @classes * @weeks
+          @total += tc.course.lab_classes_weekly * @labs * @weeks
         end
       end
     end

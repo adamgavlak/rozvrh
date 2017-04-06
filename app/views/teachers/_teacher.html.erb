@@ -10,6 +10,7 @@
   <tr>
     <td colspan="2">Predmet</td>
     <td align="right">Trvanie (v hodinách)</td>
+    <td align="right">Hodín za semester</td>
     <td align="right">Ohodnotenie</td>
   </tr>
   </thead>
@@ -21,18 +22,20 @@
         <td><%= tc.course.name %></td>
         <td>P</td>
         <td align="right"><%= tc.course.lectures_weekly %></td>
-        <td align="right"><%= tc.course.lectures_weekly * lecture %></td>
+        <td align="right"><%= tc.course.lectures_weekly * weeks %></td>
+        <td align="right"><%= tc.course.lectures_weekly * lecture * weeks %></td>
       </tr>
     <% end %>
 
     <% tc.course.groups.each do |group| %>
-      <% if group.teacher_group_courses?(teacher.id, tc.course_id) %>
+      <% if teacher.teacher_group_courses.any? { |el| el.group_id == group.id && el.course_id == tc.course_id } %>
         <% if tc.course.classes_weekly > 0 %>
           <tr>
             <td><%= tc.course.name %></td>
             <td>C - <%= group.group_number %></td>
             <td align="right"><%= tc.course.classes_weekly %></td>
-            <td align="right"><%= tc.course.classes_weekly * classes %></td>
+            <td align="right"><%= tc.course.classes_weekly * weeks %></td>
+            <td align="right"><%= tc.course.classes_weekly * classes * weeks %></td>
           </tr>
         <% end %>
 
@@ -41,7 +44,8 @@
             <td><%= tc.course.name %></td>
             <td>L - <%= group.group_number %></td>
             <td align="right"><%= tc.course.lab_classes_weekly %></td>
-            <td align="right"><%= tc.course.lab_classes_weekly * labs %></td>
+            <td align="right"><%= tc.course.lab_classes_weekly * weeks %></td>
+            <td align="right"><%= tc.course.lab_classes_weekly * labs * weeks %></td>
           </tr>
         <% end %>
       <% end %>
@@ -49,9 +53,9 @@
   <% end %>
   </tbody>
 
-  <tfoot>
+  <tfoot style="border-top: 2px solid #ddd">
   <tr>
-    <td colspan="3" align="right"><strong>Spolu:</strong></td>
+    <td colspan="4" align="right"><strong>Spolu:</strong></td>
     <td align="right"><%= total %></td>
   </tr>
   </tfoot>

@@ -5,6 +5,8 @@ class Group < ApplicationRecord
     has_many :teacher_group_courses
     has_many :teachers, through: :teacher_group_courses
 
+    default_scope { order(group_number: :asc) }
+
     # Migration
     # t.string :group_number
 

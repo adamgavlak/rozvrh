@@ -29,8 +29,6 @@
                   <div class="course__wrap">
                   <div style="padding-right: 1em;">Skupiny:</div>
                   <div class="course__groups">
-                    <% # collection_check_boxes("teacher", "tgc", c.object.groups, :group_number, :group_number) %>
-
                     <% c.object.groups.each do |g| %>
                       <% if teacher.teacher_group_courses.any? { |el| el.group_id == g.id && el.course_id == c.object.id } %>
                       <label class="tgc__label"><input type="checkbox" name="teacher[tgc]" class="teacher-course-group" value="<%= g.id %>" data-course="<%= c.object.id %>" data-group="<%= g.id %>" data-teacher="<%= teacher.id %>" checked> <%= g.group_number %> </label>
