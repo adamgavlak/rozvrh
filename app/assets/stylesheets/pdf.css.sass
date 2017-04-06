@@ -10,12 +10,21 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ * require_tree .
  *= require_self
  */
 
 //@import "bootstrap-sprockets"
-//@import "bootstrap"
+@import "bootstrap"
 
-thead
-  border: 0 !important
+body
+  font-size: 115%
+  font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif !important
+  padding: 2em 4em 0
+
+table
+  width: 100%
+
+table.compact
+  td
+    padding: 3px 8px !important
