@@ -17,7 +17,7 @@ class TeachersController < ApplicationController
     if @teacher.save
       update_lecturer_status()
       flash[:notice] = "Vyučujúci #{@teacher.name} bol úspešne vytvorený"
-      redirect_to @teacher
+      redirect_to edit_teacher_path(@teacher)
     else
       render 'new'
     end
