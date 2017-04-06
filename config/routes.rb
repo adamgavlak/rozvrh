@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   root "pages#index"
 
   # Back-end JSON API
@@ -13,7 +14,8 @@ Rails.application.routes.draw do
     delete "/teacher/group/course", to: "teacher_group_courses#destroy"
   end
 
-  resources :wage_categories
+  get "/test/:id", to: "documents#test"
+
   resources :courses
   resources :groups
   resources :teachers do
@@ -23,7 +25,11 @@ Rails.application.routes.draw do
     end
   end
 
-
   get "/documents/:filename", to: "documents#show"
+
+  get "/settings", to: "settings#index"
+  post "/settings", to: "settings#update"
+  put "/settings", to: "settings#update"
+  patch "/settings", to: "settings#update"
 
 end

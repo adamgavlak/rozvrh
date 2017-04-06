@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Multiplier.create(name: "Prednáška", value: 4)
+Multiplier.create(name: "Cvičenie", value: 2)
+Multiplier.create(name: "Laboratórne cvičenie", value: 2)

@@ -10,16 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107115447) do
-
-  create_table "course_documents", force: :cascade do |t|
-    t.integer  "course_id"
-    t.integer  "document_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["course_id"], name: "index_course_documents_on_course_id"
-    t.index ["document_id"], name: "index_course_documents_on_document_id"
-  end
+ActiveRecord::Schema.define(version: 20170405155937) do
 
   create_table "courses", force: :cascade do |t|
     t.string  "code",                           null: false
@@ -29,11 +20,29 @@ ActiveRecord::Schema.define(version: 20170107115447) do
     t.integer "lab_classes_weekly", default: 0
   end
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
   create_table "documents", force: :cascade do |t|
+    t.integer  "teacher_id"
     t.string   "filename"
+    t.string   "status"
     t.integer  "sent_count", default: 0
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["teacher_id"], name: "index_documents_on_teacher_id"
   end
 
   create_table "group_courses", force: :cascade do |t|
@@ -44,8 +53,14 @@ ActiveRecord::Schema.define(version: 20170107115447) do
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string  "group_number"
-    t.integer "student_count"
+    t.string "group_number"
+  end
+
+  create_table "multipliers", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "teacher_courses", force: :cascade do |t|
@@ -54,13 +69,6 @@ ActiveRecord::Schema.define(version: 20170107115447) do
     t.boolean "is_lecturer", default: false
     t.index ["course_id"], name: "index_teacher_courses_on_course_id"
     t.index ["teacher_id"], name: "index_teacher_courses_on_teacher_id"
-  end
-
-  create_table "teacher_documents", force: :cascade do |t|
-    t.integer "teacher_id"
-    t.integer "document_id"
-    t.index ["document_id"], name: "index_teacher_documents_on_document_id"
-    t.index ["teacher_id"], name: "index_teacher_documents_on_teacher_id"
   end
 
   create_table "teacher_group_courses", force: :cascade do |t|
@@ -81,9 +89,21 @@ ActiveRecord::Schema.define(version: 20170107115447) do
     t.index ["wage_category_id"], name: "index_teachers_on_wage_category_id"
   end
 
-  create_table "wage_categories", force: :cascade do |t|
-    t.string "title"
-    t.float  "wage_per_hour"
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

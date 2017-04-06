@@ -1,6 +1,8 @@
 class TeacherReportsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    @teacher = Teacher.find(params[:teacher_id])
+    @teacher = Teacher.includes(:documents).find(params[:teacher_id])
   end
 
   def show
@@ -21,17 +23,15 @@ class TeacherReportsController < ApplicationController
 
     @total = 0
 
-    wage = @teacher.wage_category.wage_per_hour
-
     @teacher.teacher_courses.each do |tc|
       if tc.is_lecturer
-        @total += tc.course.lectures_weekly * wage * @@lecture
+        @total += tc.course.lectures_weekly * @@lecture
       end
 
       tc.course.groups.each do |group|
         if group.teacher_group_courses?(@teacher.id, tc.course_id)
-          @total += tc.course.classes_weekly * wage * @@classes
-          @total += tc.course.lab_classes_weekly * wage * @@classes
+          @total += tc.course.classes_weekly * @@classes
+          @total += tc.course.lab_classes_weekly * @@classes
         end
       end
     end

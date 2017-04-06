@@ -1,4 +1,6 @@
-<h1>Dokumenty - <span style="font-weight: 400"><%= @teacher.name %></span></h1>
+<%= link_to "← Všetci vyučujúci", teachers_url %>
+
+<h2>Dokumenty - <span style="font-weight: 400"><%= @teacher.name %></span></h2>
 
 <hr>
 
@@ -6,6 +8,7 @@
   <thead>
     <td>Názov</td>
     <td>Dátum vytvorenia</td>
+    <td>Stav</td>
     <td>Odoslané e-mailom</td>
     <td colspan="3" align="center">Akcie</td>
   </thead>
@@ -15,6 +18,7 @@
       <tr>
         <td><%= doc.filename %></td>
         <td><%= doc.created_at.strftime("%d.%m.%Y") %></td>
+        <td><%= doc.status %></td>
         <td>
           <% if doc.sent_count <= 0 %>
             Nie
@@ -41,7 +45,5 @@
   <% end %>
   </tbody>
 </table>
-
-<%= link_to "Späť na vyučujúceho", @teacher %>
 
 <%= link_to "Vygenerovať aktuálnu zostavu", teacher_reports_path, method: :post, class: "btn btn-primary pull-right" %>

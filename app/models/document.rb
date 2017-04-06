@@ -1,9 +1,4 @@
 class Document < ApplicationRecord
-
-    has_many :teacher_documents
-    has_many :teachers, through: :teacher_documents
-
-    has_many :course_documents
-    has_many :courses, through: :course_documents
-
+    default_scope { order(created_at: :desc) }
+    belongs_to :teacher
 end

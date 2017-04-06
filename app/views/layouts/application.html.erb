@@ -16,21 +16,38 @@
             <a href="/" class="navbar-brand">Podpora rozvrhov KMMOA</a>
           </div>
           <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Užívateľská príručka", root_url %></li>
-            <li><%= link_to "Kategórie úväzkov", wage_categories_path %></li>
-            <li><%= link_to "Predmety", courses_path %></li>
-            <li><%= link_to "Skupiny", groups_path %></li>
-            <li><%= link_to "Vyučujúci", teachers_path %></li>
+            <% if user_signed_in? %>
+              <li><%= link_to "Predmety", courses_path %></li>
+              <li><%= link_to "Skupiny", groups_path %></li>
+              <li><%= link_to "Vyučujúci", teachers_path %></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= octicon "person" %> <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu--wider">
+                  <li><a href="#">Prihlásený ako <strong><%= current_user.email %></strong></a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><%= link_to "Účet", edit_user_registration_path %></li>
+                  <li><%= link_to "Príručka", root_url %></li>
+                  <li role="separator" class="divider"></li>
+                  <li><%= link_to "Nastavenia aplikácie", settings_path %></li>
+                  <li><%= link_to "Odhlásiť sa", destroy_user_session_path, method: :delete %></li>
+                </ul>
+              </li>
+
+            <% else %>
+              <li><%= link_to "Prihlásiť sa", new_user_session_path %></li>
+            <% end %>
+
           </ul>
         </div>
       </nav>
     </header>
     <main>
       <div class="container">
-        <% if flash[:notice] %>
-            <div class="alert alert-success">
-              <%= flash[:notice] %>
-            </div>
+        <% if notice %>
+          <p class="alert alert-success"><%= notice %></p>
+        <% end %>
+        <% if alert %>
+          <p class="alert alert-danger"><%= alert %></p>
         <% end %>
 
         <%= yield %>

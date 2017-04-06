@@ -1,0 +1,58 @@
+<h2>Prehľad úväzkov vyučujúceho</h2>
+
+<hr>
+<h3 style="margin-bottom: 1em"><%= teacher.name %></h3>
+
+<h4 style="font-weight: 400; margin-bottom: 1em">Prehľad vyučovaných hodín za semester</h4>
+
+<table class="table table-bordered compact">
+  <thead>
+  <tr>
+    <td colspan="2">Predmet</td>
+    <td align="right">Trvanie (v hodinách)</td>
+    <td align="right">Ohodnotenie</td>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% teacher.teacher_courses.each do |tc| %>
+    <% if tc.is_lecturer %>
+      <tr>
+        <td><%= tc.course.name %></td>
+        <td>P</td>
+        <td align="right"><%= tc.course.lectures_weekly %></td>
+        <td align="right"><%= tc.course.lectures_weekly * lecture %></td>
+      </tr>
+    <% end %>
+
+    <% tc.course.groups.each do |group| %>
+      <% if group.teacher_group_courses?(teacher.id, tc.course_id) %>
+        <% if tc.course.classes_weekly > 0 %>
+          <tr>
+            <td><%= tc.course.name %></td>
+            <td>C - <%= group.group_number %></td>
+            <td align="right"><%= tc.course.classes_weekly %></td>
+            <td align="right"><%= tc.course.classes_weekly * classes %></td>
+          </tr>
+        <% end %>
+
+        <% if tc.course.lab_classes_weekly > 0 %>
+          <tr>
+            <td><%= tc.course.name %></td>
+            <td>L - <%= group.group_number %></td>
+            <td align="right"><%= tc.course.lab_classes_weekly %></td>
+            <td align="right"><%= tc.course.lab_classes_weekly * labs %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  </tbody>
+
+  <tfoot>
+  <tr>
+    <td colspan="3" align="right"><strong>Spolu:</strong></td>
+    <td align="right"><%= total %></td>
+  </tr>
+  </tfoot>
+</table>

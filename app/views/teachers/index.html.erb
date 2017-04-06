@@ -1,10 +1,11 @@
-<h1>Vyučujúci</h1>
+<h2>Vyučujúci</h2>
+
+<hr>
 
 <table class="table table-bordered table-striped">
   <thead>
     <td>Meno</td>
     <td>Email</td>
-    <td>Kategória úväzku</td>
     <td colspan="4" align="center">Akcie</td>
   </thead>
 
@@ -13,7 +14,6 @@
       <tr>
         <td><%= teacher.name %></td>
         <td><%= teacher.email %></td>
-        <td><%= teacher.wage_category.title %></td>
         <td align="center">
           <%= link_to teacher do %>
             <span class="glyphicon glyphicon-search"></span> Prehľad
@@ -21,7 +21,7 @@
         </td>
         <td align="center">
           <%= link_to teacher_reports_path(teacher) do %>
-            <span class="glyphicon glyphicon-folder-open"></span> História úväzkov
+            <span class="glyphicon glyphicon-folder-open"></span> Generované dokumenty
           <% end %>
         </td>
         <td align="center">

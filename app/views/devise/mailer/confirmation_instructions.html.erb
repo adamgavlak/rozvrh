@@ -1,0 +1,5 @@
+<p>Dobrý deň <%= @resource.email %>!</p>
+
+<p>Môžete potvrdiť vašu emailovú adresu cez link nižšie.</p>
+
+<p><%= link_to 'Potvrdiť môj účet', confirmation_url(@resource, confirmation_token: @token) %></p>

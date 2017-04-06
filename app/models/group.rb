@@ -11,7 +11,6 @@ class Group < ApplicationRecord
 
     # Validations
     validates :group_number, presence: true
-    validates :student_count, numericality: {greater_than_or_equal_to: 0}
 
     def teacher_group_courses?(teacher_id, course_id)
       tgc = TeacherGroupCourse.where('teacher_id = ? and group_id = ? and course_id = ?', teacher_id, self.id, course_id).first

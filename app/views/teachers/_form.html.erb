@@ -12,11 +12,6 @@
     </div>
 
     <div class="form-group">
-        <h3>Typ úväzku</h3>
-        <%= f.collection_select :wage_category_id, WageCategory.all, :id, :title, {prompt: true}, {class: "form-control"} %>
-    </div>
-
-    <div class="form-group">
       <h3>Vyučované predmety</h3>
       <table class="table table-striped table-bordered">
         <thead>
@@ -29,19 +24,22 @@
                 <%= c.check_box(class: "checkbox") %>
               </td>
               <td class="course--checkbox">
-                <%= c.label %>
-                <br>
+                <div><%= c.label %></div>
                 <% if @teacher.courses.include?(c.object) %>
-                  Skupiny:
-                  <% c.object.groups.each do |gr| %>
-                      <label>
-                        <% if TeacherGroupCourse.where(teacher_id: teacher.id, course_id: c.object.id, group_id: gr.id).first %>
-                            <input type="checkbox" class="teacher-course-group" data-teacher="<%= teacher.id %>" data-course="<%= c.object.id %>" data-group="<%= gr.id %>" checked="checked"> <%= gr.group_number %>
-                        <% else %>
-                            <input type="checkbox" class="teacher-course-group" data-teacher="<%= teacher.id %>" data-course="<%= c.object.id %>" data-group="<%= gr.id %>"> <%= gr.group_number %>
-                        <% end %>
-                      </label>
-                  <% end %>
+                  <div class="course__wrap">
+                  <div style="padding-right: 1em;">Skupiny:</div>
+                  <div class="course__groups">
+                    <% # collection_check_boxes("teacher", "tgc", c.object.groups, :group_number, :group_number) %>
+
+                    <% c.object.groups.each do |g| %>
+                      <% if teacher.teacher_group_courses.any? { |el| el.group_id == g.id && el.course_id == c.object.id } %>
+                      <label class="tgc__label"><input type="checkbox" name="teacher[tgc]" class="teacher-course-group" value="<%= g.id %>" data-course="<%= c.object.id %>" data-group="<%= g.id %>" data-teacher="<%= teacher.id %>" checked> <%= g.group_number %> </label>
+                      <% else %>
+                      <label class="tgc__label"><input type="checkbox" name="teacher[tgc]" class="teacher-course-group" value="<%= g.id %>" data-course="<%= c.object.id %>" data-group="<%= g.id %>" data-teacher="<%= teacher.id %>"> <%= g.group_number %> </label>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  </div>
                 <% end %>
               </td>
               <td align="center" class="course--checkbox">

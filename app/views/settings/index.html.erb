@@ -1,0 +1,17 @@
+<h2>Nastavenia aplikácie</h2>
+<hr>
+
+<h3>Koeficienty</h3>
+
+<%= form_tag settings_path, method: :post do %>
+  <% @multipliers.each do |multiplier| %>
+    <div class="form-group">
+      <label for="multiplier[<%= multiplier.id %>]"><%= multiplier.name %></label>
+      <input type="text" name="multipliers[<%= multiplier.id %>]" class="form-control" value="<%= multiplier.value %>">
+    </div>
+  <% end %>
+  <hr>
+  <div class="form-group">
+    <%= submit_tag 'Uložiť nastavenia', class: 'btn btn-primary' %>
+  </div>
+<% end %>

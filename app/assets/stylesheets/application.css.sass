@@ -29,3 +29,64 @@ thead
 p.bg-success
   padding: 15px
   border-radius: 6px
+
+table tr
+  max-width: 50%
+
+input[type="text"].form-control
+  max-width: 50%
+
+.login
+  max-width: 50%
+  margin: 0 auto
+
+.spravuj:hover .dropdown-menu
+  display: block
+  margin-top: 0
+
+.spravuj:hover
+  background-color: #e7e7e7
+  color: #555
+
+.glyphicon--bigger
+  font-size: 1.2em
+
+.octicon-person
+  fill: #777
+  position: relative
+  top: 0.15em
+  //right: 0.1em
+
+.course__wrap, .double-table
+  display: flex
+
+.course__groups
+  width: 100%
+
+.double-table
+  display: flex
+
+  table
+    box-sizing: content-box
+    max-width: 49%
+
+    &:nth-of-type(2n)
+      margin-left: 0.75em
+    &:nth-of-type(2n+1)
+      margin-right: 0.75em
+
+table.compact
+  td
+    padding: 2px 8px !important
+
+table
+  td
+    padding: 5px 8px !important
+
+.tgc__label
+  display: inline-block
+  width: 24%
+
+@media (min-width: 1200px)
+  .container
+    width: 970px

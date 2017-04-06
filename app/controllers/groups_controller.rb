@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :find_group, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   def index
     @groups = Group.all
@@ -44,7 +45,7 @@ class GroupsController < ApplicationController
 
   private
   def group_params
-    params.require(:group).permit(:group_number, :student_count, course_ids: [])
+    params.require(:group).permit(:group_number, course_ids: [])
   end
 
   def find_group
