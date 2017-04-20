@@ -1,0 +1,153 @@
+\chapter*{Prílohy}
+\addcontentsline{toc}{chapter}{Prílohy}
+
+\section*{Príručka administrátora}
+\addcontentsline{toc}{section}{Príručka administrátora}
+
+Pri nasadení bude nutné nainštalovať niekoľko nástrojov, pre správny chod aplikácie a jej závislostí. Príručka je napísaná pre distribúciu Debian 8 (Jessie), ale mala by fungovať pre väčšinu Unix-like operačných systémov.
+
+Začneme nainštalovaním všetkých potrebných balíčkov:
+
+\begin{minted}{bash}
+$ apt update
+$ apt install git-core curl zlib1g-dev build-essential libssl-dev 
+  libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev 
+  libxslt1-dev libcurl4-openssl-dev python-software-properties 
+  libffi-dev
+
+\end{minted}
+
+\clearpage
+\subsection*{Inštalácia manažéra prostredia Ruby -- rbenv}
+
+Rbenv je veľmi užitočný nástroj, ktorý umožní jednoducho inštalovať a meniť verziu Ruby. Nainštalovaný je len lokálne pre užívateľa, ktorý vykonal inštaláciu. Nainštalujeme ho nasledovne:
+
+\begin{minted}{bash}
+$ cd
+$ git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+$ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+$ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+$ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+$ echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+$ source ~/.bashrc
+
+$ rbenv install 2.4.0
+$ rbenv global 2.4.0
+\end{minted}
+
+Teraz môžeme overiť, či sa Ruby správne nainštaloval pomocou príkazu
+
+\begin{minted}{bash}
+$ ruby -v
+\end{minted}
+
+Po úspešnom nainštalovaní rbenv a Ruby nainštalujeme balíček Bundler, ktorý nám bude manažovať závislosti v aplikáciach pomocou súboru \emph{Gemfile}.
+
+\begin{minted}{bash}
+$ gem install bundler
+$ rbenv rehash
+\end{minted}
+
+\clearpage
+\subsection*{Príprava aplikácie na serveri}
+
+Teraz je čas stiahnuť našu aplikáciu na server (odporúčam naklonovať Git repozitár). Aplikáciu umiestnime jednoducho do \emph{/home/UZIVATEL/APLIKACIA}. Potom prejdeme do adresára kde sme aplikáciu umiestnili a spustíme príkaz:
+
+\begin{minted}{bash}
+$ bundle install
+\end{minted}
+
+Ďalší krok je vytvorenie databázy. SQLite vytvorí súbor databázy a následne tabuľky v adresári \emph{db} pomocou príkazov:
+
+\begin{minted}{bash}
+$ rake db:create
+$ rake db:migrate
+\end{minted}
+
+Príkaz (\emph{rake db:create}) nám databázu vytvorí v zložke db v adresári aplikácie a \emph{rake db:migrate} vytvorí tabuľky podľa migrácii.
+
+Posledná časť prípravy aplikácie je spustenie balíčka \emph{\texttt{delayed\_job}}, aby sa mohli spúšťať úlohy na pozadí. To spravíme spustením príkazu z adresára aplikácie:
+
+\begin{minted}{bash}
+$ bin/delayed_job start
+\end{minted}
+
+Po týchto krokoch je aplikácia pripravená a môžeme prejisť na inštaláciu webového servera.
+
+\subsection*{Inštalácia webového servera Nginx}
+
+Naša aplikácia bude využívať webový server Nginx s plugin-om \emph{Passenger} od spoločnosti \emph{Phusion}. V prvom kroku nainštalujeme (ako \emph{sudo}) PGP kľúč a pridáme HTTPS podporu pre APT repozitára:
+
+\begin{minted}{bash}
+$ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 
+  --recv-keys 561F9B9CAC40B2F7
+$ apt install apt-transport-https ca-certificates
+\end{minted}
+
+V ďalšom kroku pridáme samotný repozitár a aktualizujeme list repozitárov
+
+\begin{minted}{bash}
+$ echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger 
+  jessie main' > /etc/apt/sources.list.d/passenger.list
+$ apt update
+\end{minted}
+
+V poslednom kroku nainštalujeme samotný web server Nginx aj spolu s Passenger-om
+
+\begin{minted}{bash}
+$ apt install nginx-extras passenger
+$ service nginx start
+\end{minted}
+
+Keď otvoríme IP stroja vo webovom prehliadači, mala by sa zobraziť štandardná stránka nainštalovaného serveru Nginx. \citep{web:phusion-passenger}
+
+
+\subsection*{Konfigurácia webového servera Nginx}
+
+Súbory možno editovať v akomkoľvek textovom editore. V príklade je použitý editor \emph{Joe}.
+
+Nájdeme nasledujúci riadok v súbore \emph{/etc/nginx/nginx.conf} a odkomentujeme ho:
+
+\begin{minted}{text}
+include /etc/nginx/passenger.conf;
+\end{minted}
+
+Je potrebné zmeniť užívateľa pod ktorým bude Nginx bežať. V rovnakom súbore (úplne navrchu) zmeníme \emph{user www-data;} na užívateľa, ktorý ma nainštalované Ruby s pomocou rbenv nasledovne:
+
+\begin{minted}{text}
+user UZIVATEL;
+\end{minted}
+
+Po úprave súbor uložíme a zavrieme. Otvoríme súbor \emph{/etc/nginx/passenger.conf} a zmeníme riadok ktorý začína \emph{\texttt{passenger\_ruby}} na pričom zameníme UZIVATEL za užívateľa ktorý aplikáciu inštaluje na:
+
+\begin{minted}{text}
+passenger_ruby /home/UZIVATEL/.rbenv/shims/ruby;
+\end{minted}
+
+Nginx je teraz nastavený, aby pri Ruby aplikáciach využíval aktuálne nainštalovanú verziu Ruby s pomocou rbenv. Posledný krok je konfigurácia prepojenie Nginx-u na aplikáciu. Po otvorení \emph{/etc/nginx/sites-enabled/default} obsah zmeníme na:
+
+\begin{minted}{text}
+server {
+        listen 80;
+
+        server_name domena.sk;
+        passenger_enabled on;
+        rails_env    production;
+        root         /home/UZIVATEL/APLIKACIA/public;
+
+        # presmerovanie errorov na statickú stránku /50x.html
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+}
+\end{minted}
+
+Samozrejme, je potrebné zameniť UZIVATEL za meno užívateľa, pod ktorým aplikácia beží a APLIKACIA za meno aplikácie, prípadne cestu kde je aplikácia uložená. Reštartujeme Nginx, aby prejavili zmeny v konfigurácii:
+
+\begin{minted}{bash}
+$ service nginx restart
+\end{minted}
+
+A teraz aplikácia beží na zadanej doméne, prípadne IP servera.

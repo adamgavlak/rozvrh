@@ -1,0 +1,107 @@
+\chapter{Návrh aplikácie}
+
+\section{Prípady použitia}
+
+\section{Jazyk -- Ruby}
+
+Ruby je dynamický, reflektívny objektovo orientovaný programovací jazyk, ktorý kombinuje syntax inšpirovanú jazykmi Perl, Smalltalk, Eiffel, Lisp a má dynamickú správu pamäti. Autor -- Yukihiro Matsumoto -- pri návrhu vychádzal z filozofie, že programátor by sa pri práci s jazykom mal baviť ale zároveň byť produktívny. Taktiež zdôrazňoval, že dizajn systémov by sa mal zameriavať viac na potreby človeka ako na potreby počítača. \citep{matsumoto2002ruby}
+
+\subsection{Zaujímavé vlastnosti jazyka Ruby}
+
+Ruby je veľmi zaujímavý jazyk, avšak má mnoho vlastností, ktoré by mohli samostatne pokryť ďalšiu prácu. Preto som sa rozhodol vybrať také, ktoré sú netradičné a priblížiť ich.
+
+\subsubsection{Symbol}
+
+Symbol na prvý pohľad vyzerá ako premenná, ktorá má pred názvom dvojbodku, napríklad \emph{:user}. Výhodou symbolov je, že ich nie je potrebné deklarovať a v celom programe budú mať rovnakú hodnotu. Zoberme nasledujúci príklad:
+
+\begin{minted}{ruby}
+puts "string".object_id
+puts "string".object_id
+puts :symbol.object_id
+puts :symbol.object_id
+\end{minted}
+
+Po spustení tohto programu sa zobrazil nasledujúci výstup a naozaj dokázal, že symboly majú počas behu programu rovnakú hodnotu:
+
+\begin{minted}{bash}
+$ ruby symbol.rb
+90520360
+90520080
+801628
+801628
+\end{minted}
+
+\subsubsection{Blok}
+
+Bloky sú v iných jazykoch nazývané aj \emph{closure}. V Ruby sú veľmi užitočnou vlastnosťou pretože nám umožňujú odoslať blok kódu priamo do funkcie. Definujú sa:
+
+\begin{minted}{ruby}
+call_block(arg) { |a| puts a }
+# alebo
+call_block(arg) do |a|
+  puts a
+end
+\end{minted}
+
+Pre využitie bloku vo funkcii musíme použiť funkciu \emph{yield}. Avšak, ak funkcia používa \emph{yield} ale, žiadny block nebol prijatý tak Ruby vyvolá výnimku. Blok môžeme vo funkcii zavolať nasledujúco:
+
+\begin{minted}{ruby}
+def call_block(arg)
+    yield(arg)
+end
+\end{minted}
+
+\subsubsection{Moduly}
+
+Ruby nepodporuje viacnásobnú dedičnosť. Keď chceme aby niekoľko tried implementovalo určitú funkcionalitu musíme využiť \emph{module}. Module je kolekcia metód a konštánta môžeme modul definovať nasledujúco:
+
+\begin{minted}{ruby}
+module Mod
+  def call_func(arg)
+    puts arg
+  end
+end
+\end{minted}
+
+V triede kde požadujeme funkcionalitu modulu potom jednoducho zahrnieme modul pomocou funkcie \emph{include}. Napríklad:
+
+\begin{minted}{ruby}
+class MyClass
+    include Mod
+end
+\end{minted}
+
+\subsection{RubyGems}
+
+RubyGems je správca balíčkov používaný spolu s jazykom Ruby, ktorý ponúka štandardný formát pre distribúciu Ruby programov a knižníc vo formáte nazývanom \emph{gem} a uľahčuje ich inštaláciu. Všetky balíčky sa dajú nájisť, prehľadávať alebo pridávať na stránke \url{https://rubygems.org}. V čase písania práce bolo publikovaných 131 tisíc balíčkov a počet stiahnutí presiahol 13,3 miliárd.
+
+\section{Framework -- Ruby on Rails}
+
+\subsection{Model, view a controller}
+\subsection{ActiveRecord}
+\subsection{Migrácie}
+\subsection{Generátory}
+
+\section{Databáza a entitno-relačný diagram}
+
+Na perzistentné uloženie dát aplikácie som po porade zvolil databázu SQLite, ktorá má podľa mňa dostatočnú kapacitu a spĺňa všetky požiadavky pre škálu budovanej aplikácie. Má dokonca aj niekoľko výhod:
+
+\begin{itemize}
+    \item Jednoduchá inštalácia
+    \item Nie je potrebná skoro žiadna konfigurácia
+    \item Dáta sú ľahko zálohovateľné, pretože databáza je uložená v jedinom súbore
+    \item Šetrí zdroje systému
+\end{itemize}
+
+\section{Systém pre správu verzií -- Git}
+
+Pri tvorbe softvéru vývojári vytvárajú zdrojový kód. Menia, rozširujú ho, potrebujú vrátiť zmeny alebo sa vrátiť späť k starším verziám. Taktiež je potrebné zabezpečiť situáciu, keď na jednom projekte pracuje viac vývojárov naraz. \citep{otte2009version} 
+
+Git je jedným z mnohých programov na správu verzií zdrojového kódu vytvorený Linusom Torvaldom v roku 2005. Používať ho budem počas celého vývoja aplikácie aj napriek tomu, že nie som súčasťou žiadneho týmu, pretože mi stále poskytuje niekoľko obrovských výhod, a to: 
+
+\begin{itemize}
+    \item Jednoduché a prehľadné zdieľanie zdrojového kódu s vedúcim práce
+    \item História všetkých zmien zdrojového kódu
+    \item Uľahčenie nasadenia na server
+    \item Záloha aplikácie v prípade straty na lokálnom systéme
+\end{itemize}
