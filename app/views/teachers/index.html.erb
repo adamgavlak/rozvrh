@@ -6,9 +6,11 @@
 
 <table class="table table-bordered table-striped">
   <thead>
-    <td>Meno</td>
-    <td>Email</td>
-    <td colspan="4" align="center">Akcie</td>
+    <tr>
+      <th><%= sortable("name", "Meno") %></th>
+      <th><%= sortable("email") %></th>
+      <th colspan="4" align="center">Akcie</th>
+    </tr>
   </thead>
 
   <tbody>

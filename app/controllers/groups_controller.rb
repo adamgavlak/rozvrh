@@ -1,9 +1,10 @@
 class GroupsController < ApplicationController
   before_action :find_group, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  helper_method :sort_column, :sort_direction
 
   def index
-    @groups = Group.all
+    @groups = Group.order(sort_column + " " + sort_direction).all
   end
 
   def new
@@ -50,5 +51,13 @@ class GroupsController < ApplicationController
 
   def find_group
     @group = Group.find(params[:id])
+  end
+
+  def sort_column
+    Teacher.column_names.include?(params[:sort]) ? params[:sort] : 'group_number'
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

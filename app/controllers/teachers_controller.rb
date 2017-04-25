@@ -2,8 +2,10 @@ class TeachersController < ApplicationController
   before_action :find_teacher, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
+  helper_method :sort_column, :sort_direction
+
   def index
-    @teachers = Teacher.all
+    @teachers = Teacher.order(sort_column + " " + sort_direction).all
   end
 
   def new
@@ -77,6 +79,14 @@ class TeachersController < ApplicationController
   def find_teacher
     @teacher = Teacher.includes(:teacher_group_courses, teacher_courses: [{course: :groups}]).find(params[:id])
     # @teacher = Teacher.find(params[:id])
+  end
+
+  def sort_column
+    Teacher.column_names.include?(params[:sort]) ? params[:sort] : 'name'
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
   def generate_pdf
