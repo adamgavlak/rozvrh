@@ -1,5 +1,7 @@
 \chapter{Návrh aplikácie}
 
+Pri vývoji aplikácie budem používať všetky technológie spomenuté v \emph{Technológie strany klienta}. Keďže tieto technológie na vývoj webovej aplikácie nestačia musím si zvoliť technológiu, ktorú použijem na strane servera. Rozhodol som sa zvoliť si jazyk Ruby, pretože už mám s ním niekoľko rokov skúseností, a dokážem v ňom tvoriť webové aplikácie rýchlo a efektívne.
+
 \section{Jazyk -- Ruby}
 
 Ruby je dynamický, reflektívny objektovo orientovaný programovací jazyk, ktorý kombinuje syntax inšpirovanú jazykmi Perl, Smalltalk, Eiffel, Lisp a má dynamickú správu pamäti. Autor -- Yukihiro Matsumoto -- pri návrhu vychádzal z filozofie, že programátor by sa pri práci s jazykom mal baviť ale zároveň byť produktívny. Taktiež zdôrazňoval, že dizajn systémov by sa mal zameriavať viac na potreby človeka ako na potreby počítača. \citep{matsumoto2002ruby}
@@ -24,7 +26,7 @@ Tieto znaky uľahčujú čitateľnosť výsledného kódu a umožňujú program�
 
 \subsubsection{Symboly}
 
-Symbol na prvý pohľad vyzerá ako premenná, ktorá má pred názvom dvojbodku, napríklad \emph{:user}. Výhodou symbolov je, že ich nie je potrebné deklarovať a v celom programe budú mať rovnakú hodnotu. Zoberme nasledujúci príklad:
+Symbol na prvý pohľad vyzerá ako premenná, ktorá má pred názvom dvojbodku, napríklad \emph{:user}. Výhodou symbolov je, že ich nie je potrebné deklarovať a v celom programe budú rovnaké. Zoberme nasledujúci príklad:
 
 \begin{minted}{ruby}
 puts "string".object_id
@@ -33,7 +35,7 @@ puts :symbol.object_id
 puts :symbol.object_id
 \end{minted}
 
-Po spustení tohto programu sa zobrazil nasledujúci výstup a naozaj dokázal, že symboly majú počas behu programu rovnakú hodnotu:
+Po spustení tohto programu sa zobrazil nasledujúci výstup a naozaj dokázal, že symboly sú počas behu programu rovnaké:
 
 \begin{minted}{bash}
 $ ruby symbol.rb
@@ -85,7 +87,7 @@ end
 
 \subsection{RubyGems}
 
-RubyGems je správca balíčkov používaný spolu s jazykom Ruby, ktorý ponúka štandardný formát pre distribúciu Ruby programov a knižníc vo formáte nazývanom \emph{gem} a uľahčuje ich inštaláciu. Všetky balíčky sa dajú nájisť, prehľadávať alebo pridávať na stránke \url{https://rubygems.org}. V čase písania práce bolo publikovaných 131 tisíc balíčkov a počet stiahnutí presiahol 13,3 miliárd.
+RubyGems je správca balíčkov používaný spolu s jazykom Ruby, ktorý ponúka štandardný formát pre distribúciu Ruby programov a knižníc vo formáte nazývanom \emph{gem} a uľahčuje ich inštaláciu. Všetky balíčky sa dajú nájisť, prehľadávať alebo pridávať na stránke \url{https://rubygems.org}.
 
 \section{Framework -- Ruby on Rails}
 
@@ -126,7 +128,7 @@ end
 
 Môžeme uvažovať, že každá migrácia je nová verzia schémy pre databázu. Schému môžeme napísať ručne alebo vygenerovať a potom doplniť operácie ktoré chceme vykonať ako pridanie/vymazanie tabuliek, stĺpcov, indexov alebo iných obmedzení.
 
-\subsection{Generátory}
+\subsection*{Generátory súborov}
 
 Ruby on Rails je nainštalovaný aj spolu s jednoduchou aplikáciou, ktorá nám okrem iných nástrojov pri vývoji umožňuje aj generovať súbory, čo nám značne uľahčuje a urýchľuje vývoj aplikácie. Generovanie z príkazového riadku prebieha naslednovne:
 
@@ -153,7 +155,7 @@ Slovo \emph{GENERATOR} zameníme za generátor, podľa toho aký súbor/y chceme
 
 \section{Databáza a entitno-relačný diagram}
 
-Na perzistentné uloženie dát aplikácie som po porade zvolil databázu SQLite, ktorá má podľa mňa dostatočnú kapacitu a spĺňa všetky požiadavky pre škálu budovanej aplikácie. Má dokonca aj niekoľko výhod:
+Na perzistentné uloženie dát aplikácie som zvolil databázu SQLite, ktorá má podľa mňa dostatočnú kapacitu a spĺňa všetky požiadavky pre škálu budovanej aplikácie. Má dokonca aj niekoľko výhod:
 
 \begin{itemize}
     \item Jednoduchá inštalácia
@@ -174,3 +176,5 @@ Git je jedným z mnohých programov na správu verzií zdrojového kódu vytvore
     \item Uľahčenie nasadenia na server
     \item Záloha aplikácie v prípade straty na lokálnom systéme
 \end{itemize}
+
+Existujú aj mnohé služby ktoré poskytujú hosting Git repozitárov či už platené, ako GitHub alebo open-source ako GitLab, ktoré majú aj funkcionalitu zameranú na kolaboráciu komunity ako \emph{Pull request} alebo sledovanie a nahlasovanie problémov, ktoré sa vyskytli pri používaní softvéru.

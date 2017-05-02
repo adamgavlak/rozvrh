@@ -18,16 +18,72 @@ Na základe zadania a nasledovnými konzultáciami s koncovými používateľmi 
     \item Odosielanie emailov vyučujúcim s vygenerovanými prehľadmi
 \end{itemize}
 
-\section{Back-end technológie}
+\section{Technológie strany klienta}
+Ako pri každej webovej aplikácii, na strane klienta budú použité základné technológie ako značkovací jazyk HTML, štýlovací jazyk CSS a JavaScript, ktorý slúži pridávanie rôznej funkcionality od práce s DOM-om, cez použitie AJAX-u až po spracovanie dát na strane klienta.
 
-Na vývoj aplikácie je dôležité vybrať správny nástroj. V dnešnej dobe, je ich na trhu obrovské množstvo, preto je dobré zvoliť taký nástroj, ktorý nám umožní vytvoriť aplikáciu prehľadne, v rozumnom časovom rozsahu, následne ju s prehľadom spravovať a možno aj rozširovať.
+\subsection*{HTML}
+
+HTML (HyperText Markup Language) je najzákladnejší stavebný prvok web stránky, pretože opisuje a definuje obsah web stránky. \emph{HyperText} v názve popisuje odkazy, ktoré spájajú jednotlivé web stránky v rámci jedného webového portálu alebo spájajú viaceré webové portály. Odkazy sú podstatným aspektom webu, pretože užívateľ nahrávajúci obsah na internet sa stáva aktívnym prispievateľom World Wide Web-u.
+
+\subsection*{CSS}
+
+CSS (Cascading Style Sheets) je jazyk štýlovania používaný na popísanie dokumentu napísaného v HTML alebo XML (zahŕňa aj dialekty XML ako SVG alebo XHTML). CSS popisuje ako majú byť jednotlivé elementy zobrazené na obrazovke, papieri, v reči alebo na iných médiách.
+
+\subsection*{JavaScript}
+
+JavaScript je dynamický interpretovaný programovací jazyk s možnosťami objektovo orientovaného programovania, založeného na prototypoch. Najrozšírenejší je ako programovací jazyk na strane klienta webov, kde poskytuje API k tomu ako by sa mala web stránka správať, keď sa vyskytne nejaká udalosť, ale dokáže spravovať aj rôzne iné aspekty a správanie web stránok.
+
+\subsubsection*{AJAX}
+
+AJAX (Asynchronous JavaScript + XML) nie je samostatná technológia, ale pojem vytvorený v roku 2005 Jesse Jamesom Garretom, ktorý opisuje nový spôsob ako pristupovať k spojeniu rôznych existujúcich technológii ako HTML, XML, CSS, JavaScript, DOM a objekt XMLHttpRequest ktoré vytvárajú model AJAX-u. Použitím AJAX-u majú webové aplikácie možnosť vykonávať rýchle a inkrementálne úpravy užívateľského rozhrania bez potreby znovu načítania celej webovej stránky. To robí webovú aplikáciu rýchlejšiou a responzívnejšiou z pohľadu užívateľov.
+
+\section{Technológie strany servera}
+
+Na vývoj aplikácie je dôležité vybrať správny nástroj. V dnešnej dobe, je ich na trhu obrovské množstvo, preto je dobré zvoliť taký nástroj, ktorý nám umožní vytvoriť aplikáciu prehľadne, v rozumnom časovom rozsahu, následne ju s prehľadom spravovať a možno aj rozširovať. Technológie na strane servera sú potrebné, keď technológie na strane užívateľa už nedokážu požadovanú funkcionalitu dosiahnuť. Každá technológia má svoje výhody a nevýhody a preto priblížim tie, ktoré poznám najviac.
 
 \subsection*{PHP}
+
+PHP (rekurzívna skratka pre PHP: Hypertext Preprocesor) je skriptovací jazyk na strane servera, ktorý je používaný hlavne na tvorbu webových aplikácii. Za roky vývoja od roku 1994 prešiel rôznymi zmenami a dnes sa môže porovnávať aj s inými jazykmi, ale iba v rámci vybavenia a podporou komunity.
+
+Bolo v ňom vytvorených veľké množstvo úspešných projektov ako napríklad \emph{Wikipedia}, \emph{Facebook} (ktorý už v dnešnej dobe používa vlastnú verziu PHP nazvanú HHVM), \emph{Wordpress} alebo \emph{Yahoo}. Výhodou jazyka PHP je jednoduchosť nasadenia na server, keďže PHP tvorí na trhu väčšinu bežiacich webových aplikácii a drvivá väčšina poskytovateľov hostingu podporuje iba PHP.
+
+V posledných rokoch vzniklo aj niekoľko populárnych frameworkov, ktoré uľahčujú prácu pre vývojárov, keďže nemusia všetku funkcionalitu programovať od začiatku. Najviac známe z týchto frameworkov sú \emph{Laravel}, \emph{Symphony}, alebo \emph{Nette}.
+
+\subsubsection*{Composer}
+
+Composer je správca závislostí vytvorený pre PHP. Umožňuje deklaráciu použitých softvérových knižníc použitých v projekte od ktorých je program závislý a spravuje ich za užívateľa (inštalácia/aktualizovanie). 
+
+Všetky závislosti sú definované v súbore \emph{composer.json} a operácie sa dajú vykonávať cez aplikáciu v príkazovom riadku pomocou programu \emph{composer}.
+
 \subsection*{Python}
+
+Python je vysoko úrovňový programovací jazyk navrhnutý pre vývoj softvéru, ktorý môže byť použitý v širokej škále aplikačných domén. Vývoj webových aplikácii je v jazyku Python dosť náročný, pretože používateľ by musel všetkú funkcionalitu naprogramovať sám. Tu ale prichádzajú framework-y, ktoré tento proces výrazne uľahčia a tým robia vývoj webových aplikácii jednoduchší pre širšie publikum vývojárov.
+
+Full-stack frameworky kombinujú rôzne komponenty ako HTTP server, možnosť perzistencie dát do databázy, šablóny... Najznámejšími z full-stack frameworkov sú \emph{Django}, \emph{TurboGears} alebo \emph{web2py}. Ďalšími z populárnych frameworkov, ktoré už nie sú tak vybavené ako full-stack frameworky a užívateľ si môže zvoliť a dodefinovať tieto ďalšie komponenty sú napríklad \emph{Flash} alebo \emph{CherryPy}.
+
+\subsubsection*{Pip}
+
+Od verzie 3.4 je Python dodávaný so správcom balíčkov Pip. Balíčky, ktoré sa môžu inštalovať nájdeme na webe Python Package Index (PyPI) na adrese \url{https://pypi.python.org/pypi}. Pip umožňuje inštaláciu spravovanie balíčkov cez konzolovú aplikáciu \emph{pip}
+
 \subsection*{Ruby}
+
+Ruby, podobne ako Python je programovací jazyk, ktorý môže byť použitý v širokej škále aplikačných domén. A rovnako ako Python, vývoj webových aplikácii v Ruby bez použitia frameworku by bol príliš zložitý a náročný. Najznámejšie z frameworkov sú: \emph{Ruby on Rails}, \emph{Sinatra} a \emph{Padrino}. Ruby on Rails je full-stack framework zatiaľ čo Sinatra a Padrino sú menšie, neobsahujú toľko funkcionality, ale vývojár si môže funkcionalitu jednoduch doplniť pomocou balíčkou nazývaných \emph{Gems}.
+
+\subsubsection*{Ruby}
+
+RubyGems je správca balíčkov pre jazyk Ruby. Pri vývoji väčších alipkácii je často doplňovaný aplikáciou \emph{bundler}, ktorá umožnuje zapísanie všetkých závislostí do súboru nazývaného \emph{Gemfile}
+
 
 \section{Databázové riešenia}
 
-\subsection*{MySQL}
-\subsection*{PostgreSQL}
-\subsection*{SQLite}
+Dáta z webovej aplikácie musia byť niekde uložené Databázové riešenia používané pri vývoji webových aplikácii môžeme rozdeliť na dve hlavné kategórie -- relačné databázy a NoSQL (Not only SQL) databázy. Hlavný rozdiel medzi týmito kategóriami je, kedy je užitočné uprednostniť jednu kategóriu pred druhou. NoSQL má niekoľko výhod hlavne v rýchlosti a objeme spracovaných dát, ale kým relačná databáza nespôsobuje spomalenie celej aplikácie tak je dostačujúca a v niektorých prípadoch, výhodnejšia a jednoduchšia. Najznámejšie NoSQL databázy sú \emph{Redis}, \emph{MongoDB} a \emph{CouchDB}.
+
+\subsection*{Relačné databázy}
+
+Najznámejšími relačnými databázami sú:
+
+\begin{itemize}
+    \item \emph{MySQL} -- najpopulárnejšia a najviac využívaná relačná databáza
+    \item \emph{PostgreSQL} -- najpokročilejšia a open-source relačná databáza
+    \item \emph{SQLite} -- relačná databáza používaná hlavne pri vstavaných riešeniach a malých webových aplikáciach
+\end{itemize}

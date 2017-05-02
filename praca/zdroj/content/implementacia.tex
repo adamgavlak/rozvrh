@@ -2,16 +2,108 @@
 
 \section{Vývoj s pomocou príkazového riadku}
 
+Ruby on Rails má zabudovanú konzolovú aplikáciu, ktorá uľahčuje vývoj pomocou príkazov. Ak zadáme \emph{\$ rails help} tak dostaneme nasledovný výstup
+
+\begin{minted}{bash}
+$ rails help
+Usage: rails COMMAND [ARGS]
+
+The most common rails commands are:
+ generate    Generate new code (short-cut alias: "g")
+ console     Start the Rails console (short-cut alias: "c")
+ server      Start the Rails server (short-cut alias: "s")
+ test        Run tests (short-cut alias: "t")
+ dbconsole   Start a console for the database specified in config/database.yml
+             (short-cut alias: "db")
+ new         Create a new Rails application. "rails new my_app" creates a
+             new application called MyApp in "./my_app"
+
+ ...
+\end{minted}
+
+\clearpage
+Tieto príkazy dokážu urýchliť vývoj, keďže nemusíme konfigurovať štruktúru adresárov, sťahovať repozitáre Ruby on Rails a vytvárať súbory ručne alebo poskytuje iné nástroje.
+Najdôležitejšie pri vývoji sú príkazy \emph{rails server}, \emph{rails console} a \emph{rails new}. 
+
+
+\textbf{\emph{\$ rails server}} -- ako meno napovedá spustí server, ktorý je určený v súbore balíčkov -- \emph{Gemfile}, pričom môžeme flagmi špecifikovať na akom porte a adrese sa má aplikácia spustiť.
+
+\textbf{\emph{\$ rails console}} -- spúšťa interaktívnu konzolu, kde vývojár môže otestovať správanie jednotlivých komponentov webovej apliácie, bez toho aby musel spúšťať server a testovať cez užívateľské rozhranie v prehliadači.
+
+\textbf{\emph{\$ rails new my\_app}} -- sa nepoužíva príliš často, keďže tento príkaz vytvára novú aplikáciu aj s celou jej štruktúrou. Zároveň nastaví a stiahne všetky závislosti. Pri vytváraní sa môžu určité závislosti, ako použitá databáza alebo použitý JavaScript-ový framework pomocou flagov (napríklad \emph{-d=postgresql} ak chceme použiť pri všetkých štádiach vývoja databázu PostgreSQL.
+
+Ďalšia časť príkazov sú generátory súborov ako bolo spomenuté v kapitole 2.2. Generátory vytvárajú iba kostru súboru spolu aj s názvom, kde potom vývojar môže dopísať svoj kód. Všetky typy generátorov súborov môžeme zobraziť pomocou príkazu \emph{\$ rails generate}.
+
+Dôležité príkazy sú pre prácu s migráciami a teda databázou. Keď má vývojár migrácie napísané tak ich potrebuje aby sa podľa nich v databáze vytvorili tabuľky, stĺpce, indexy... Príkazov pre prácu s databázou je mnoho ale pri vývoji som používal najčastejšie nasledujúce:
+
+\begin{minted}{bash}
+$ rails db:[COMMAND]
+$ rails db:create   # Vytvorí databázu
+$ rails db:migrate  # Prevedie všetky migrácie z DSL do databázy
+$ rails db:seed     # Vytvorí prichystané objekty do databázy
+                    # zo súboru ./db/seeds.rb
+$ rails db:rollback # Vráti všetky zmeny z predchádzajúcej migrácie
+$ rails db:drop     # Odstráni databázy
+\end{minted}
+
 \section{Smerovanie}
+
+Ruby on Rails využíva pri mapovaní URL adries router. Tieto mapovania môže vývojár ľubovoľne meniť a teda priradiť určitú cestu danému controller-u. Všetky tieto cesty sídlia v súbore \emph{./config/routes.rb}. Cesty môžeme priebežne sledovať aj pomocou príkazu \emph{\$ rails routes}. Tu je ukážka definovaných ciest z aplikácie pre podporu rozvrhov:
+
+\begin{minted}{ruby}
+Rails.application.routes.draw do
+  root "pages#index"
+  devise_for :users
+
+  namespace :api do
+    post "/teacher/group/course", to: "teacher_group_courses#create"
+    delete "/teacher/group/course", to: "teacher_group_courses#destroy"
+  end
+
+  resources :courses
+  resources :groups
+  resources :teachers do
+    resources :reports, controller: "teacher_reports" do
+      get "/email", to: "teacher_reports#email"
+      post "/email", to: "teacher_reports#email_send"
+    end
+  end
+  ...
+end
+\end{minted}
+
+Existuje niekoľko príkazov ktoré tieto cesty umožňujú vytvárať pomocou a sú nazvané podľa typu HTTP requestu (GET, POST). Keď sú cesty definované pomocou týchto funkcií majú tvar:
+
+\begin{minted}{ruby}
+get "/stranka", to: "controller#akcia"
+\end{minted}
+
+Kde hash \emph{to: STRING} mapuje cestu na špecifický controller a akciu v ňom. Sú však aj ďalšie špecifické prípady, napríklad domovská stránka aplikácie sa definuje pomocou funkcie \emph{\texttt{root "controller\#akcia"}}
+
+Príkaz \emph{\texttt{resources :symbol}} je v skratkou pre vytváranie REST-ful ciest a cesty vygenerované týmto príkazom vyzerajú nasledujúco:
+
+\begin{minted}{bash}
+       NAZOV VERB   CESTA                 CONTROLLER#AKCIA
+symbol_index GET    /symbol               symbol#index
+             POST   /symbol               symbol#create
+  new_symbol GET    /symbol/new           symbol#new
+ edit_symbol GET    /symbol/:id/edit      symbol#edit
+      symbol GET    /symbol/:id           symbol#show
+             PATCH  /symbol/:id           symbol#update
+             PUT    /symbol/:id           symbol#update
+             DELETE /symbol/:id           symbol#destroy
+\end{minted}
+
+V príklade môžeme vidieť aj preddefinovaný príkaz \emph{devise\_for :users}, ktorý je súčasťou balíčka autentifikácie užívateľov nazvaného Devise a vytvára cesty potrebné pre fungovanie tohto balíčka.
+
+Ďalej je použitá aj funkcia \emph{namespace :api ...}, ktorá dokáže zoskupovať podobné príkazy pod spoločnú url, v príklade je to api, čiže všetky cesty budú začínať \emph{\texttt{\/api/cesta}}.
 
 \section{Modely}
 
 \section{Controllery}
 
 \section{Views}
-\subsection{HTML a ERB}
-\subsection{CSS}
-\subsection{JavaScript}
+
 
 \section{Spracovanie úloh na pozadí}
 
