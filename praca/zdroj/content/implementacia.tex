@@ -193,15 +193,55 @@ Na tomto princípe fungujú a majú podobnú štruktúru všetky controller-y a 
 
 \section{Views}
 
-View má v Ruby on Rails zložitú úlohu. Každý view začína spoločnou šablónou (layout), ktorá je definovaná (pokiaľ nie je bližšie špecifikované) v súbore:
+Všetky viewy v Ruby on Rails aplikáciach sú uložené v adresári \emph{\texttt{.\/app\/views}} kde sú potom zaradené do respektívnych pod-adresárov podľa akcie v ktorej budú zobrazené. Každý view začína spoločnou šablónou (layout), ktorá je definovaná (pokiaľ nie je bližšie špecifikované) v súbore:
 
 \begin{minted}{bash}
 ./app/views/layouts/application.html.erb
 \end{minted}
 
-Všetky view-y v Ruby on Rails využívajú pri šablónach formát ktorý sa volá Embedded RuBy -- ERB. Tento formát nám poskytuje funkcionalitu, kde môžeme vkladať kúsky kódu Ruby do obyčajného HTML dokumentu.
+View-y v Ruby on Rails využívajú pri šablónach formát ktorý sa volá Embedded RuBy -- a teda končí koncovkou ERB. Tento formát nám poskytuje funkcionalitu, kde môžeme vkladať kúsky kódu Ruby do obyčajného HTML dokumentu.
 
-Potom ako sa view v Ruby on Rails vykreslí je vložený do hlavnej šablóny. Môžeme view-y ďalej rozširovať aj pomocou funkcie \emph{render}
+Ďalšia dôležitá funkcionalita je, že všetky premenné inštancie (@var) controller-a sú automaticky prítomné aj v rendrovanom view-e.
+
+Potom ako sa view v Ruby on Rails vykreslí je vložený do hlavnej šablóny. Môžeme view-y ďalej rozširovať aj pomocou funkcie \emph{render}, ktorá môže rendrovať čiastočné view-y ako napríklad formuláre. V aplikácii máme príklad, render formuláru predmetu:
+
+\begin{minted}{erb}
+<h1>Upraviť predmet <%= @course.name %></h1>
+<%= render 'form', course: @course %>
+<%= link_to "Späť", courses_path %>⏎
+\end{minted}
+
+V prvom riadku príkladu je samozrejme vypísanie nadpisu úrovne H1 kde je zároveň uvedené aj meno predmetu. Ďalší riadok používa metódu render, ktorá vykreslí čiastočný view s menom \emph{\_form} (všetky čiastočné view-y musia začínať s podtržníkom) pričom mu predáva premennú predmetu. V tretiom riadku vidíme pomocnú funkciu na generovanie linku, kde sa použije meno cesty.
+
+\clearpage
+\begin{minted}{erb}
+<%= form_for course do |f| %>
+    <%= render 'layouts/errors', model: course %>
+
+    <div class="form-group">
+        <%= f.label "Kód predmetu" %>
+        <%= f.text_field :code, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+        <%= f.label "Meno predmetu" %>
+        <%= f.text_field :name, class: "form-control" %>
+    </div>
+    ...
+\end{minted}
+
+Toto je úryvok z obsahu súboru \emph{\texttt{courses/\_form.html.erb}}. Prvá vec ktorú si všimneme je že predmet (\emph{course}) už nie je premennou inštancie ale iba lokálnou premennou, ktorá je použitá vo helper funkcii \emph{\texttt{form\_for}}, ktorá uľahčuje tvorbu formulárov.
+
+\begin{minted}{erb}
+<tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.code %></td>
+        <td><%= course.name %></td>
+    ...
+\end{minted}
+
+Veľmi dôležitou funkciou je aj prechádzanie cez kolekciu objektov. To docielime jednoducho použitím funkcie \emph{.each} priamo na kolekciu objektov kde môžeme potom k jednotlivým elementom pristupovať v príslušnom bloku.
 
 \section{Generovanie PDF prehľadov}
 
@@ -210,6 +250,32 @@ Generovanie PDF dokumentov zabezpečuje balíček \emph{\texttt{wicked\_pdf}}, k
 V prvej verzii implementácie sa PDF prehľady generovali priamo v okne užívateľa, ale keďže generovanie PDF dokumentov je časovo náročnejšie, užívateľ bol nútený čakať kým sa dokument zobrazí/stiahne. Nakoniec som tento problém vyriešil použitím balíčka \emph{\texttt{delayed\_job}}. Viac o tom to riešení píšem v sekcií \ref{sec:request_time}
 
 \section{Odosielanie e-mailov}
+
+Ruby on Rails obsahuje v základe zabudovanú funkcionalitu na odosielanie a prijímanie emailov nazvanú \emph{Action Mailer}. Ten poskytuje generátor súborov a teda jednoduchý základ pre vývojára. Všetky súbory na prácu s emailami sú uložené v adresári \emph{\texttt{./app/mailers}} a šablóny emailov sú umiestnené v \emph{\texttt{./app/views}}. Tu je príklad ako sa odosielajú e-maily spolu aj s prehľadom vyučujúceho v prílohe vo formáte pdf:
+
+\begin{minted}{ruby}
+def mail_teacher_report(teacher, document, subject, body)
+  @teacher = teacher
+  @body = body
+  
+  attachments[document.filename] = File.read(
+    Rails.root.join("pdfs", document.filename)
+  )
+
+  mail(to: @teacher.email, subject: subject)
+end
+\end{minted}
+
+Premenné, ktoré sa pošlú do funkcie mailera \emph{\texttt{mail\_teacher\_report}} sprístupníme šablóne e-mailu tým, že ich priradíme do premenných inštancie. Ďalej do poľa \emph{attachments} načítame súbor priamo z adresára, kde sú súbory pdf uložené. Nakoniec odošleme e-mail pomocou funkcie mail, kde nastavíme hash pre koho je e-mail určený a predmet e-mailu.
+
+Potrebujeme ale definovať, kedy sa má tento e-mail odoslať a to môžeme spraviť priamo v controller-i. Keď užívateľ vyžiada aby bol email odoslaný tak v akcií controllera zavoláme daný mailer a funkciu, ktorá je na to určená:
+
+\begin{minted}{ruby}
+ReportMailer.mail_teacher_report(@teacher, @document, @subject, @body)
+            .deliver_later
+\end{minted}
+
+V príklade je uvdená funkcia \emph{\texttt{deliver\_later}} ktorá odošle e-mail na pozadí bez toho aby zdržovala priebeh spracovania požiadavku. Môžeme však aj definovať funkciu \emph{\texttt{deliver\_now}}, ktorá bude čakať na odoslanie e-mailu a teda blokovať spracovanie požiadavky.
 
 \clearpage
 \section{Užívateľské rozhranie}
