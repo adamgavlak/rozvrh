@@ -100,14 +100,115 @@ V príklade môžeme vidieť aj preddefinovaný príkaz \emph{devise\_for :users
 
 \section{Modely}
 
-\section{Controllery}
+Všetky modely aplikácie prebývajú v adresári \emph{./app/models}. Modely ako také vyzerajú jednoducho (príklad z aplikácie):
+
+\begin{minted}{ruby}
+class Teacher < ApplicationRecord
+  has_many :teacher_courses
+  has_many :courses, through: :teacher_courses
+
+  has_many :teacher_group_courses
+  has_many :groups, through: :teacher_group_courses
+
+  has_many :documents
+
+  validates :name, presence: true
+  validates :email, presence: true
+
+  def lecturer_ids
+    ids = 
+      self.teacher_courses
+          .select{ |c| c.is_lecturer }
+          .map{ |i| i.course_id}
+  end
+end
+\end{minted}
+
+Tento model predstavuje vyučujúceho v systéme. Vidíme, že model dedí väčšinu svojho správania z abstraktnej triedy \emph{ApplicationRecord}, ktorá dedí všetko správanie z \emph{ActiveRecord::Base}, preto nebotrebuje definovať skoro žiadne metódy a všetky atribúty tohto objektu sú definované v migrácii a nezavadzajú v súbore modelu. 
+
+V príklade ako prvé môžeme vidieť definovanie vzťahov M:N a 1:N pomocou funkcíí \emph{has\_many} a \emph{has\_many} s hashom \emph{through: :symbol} kde sa definuje vzťah M:N a v ktorej tabuľke sa má vytvoriť prepojenie.
+
+Ďalšie kľúčové funkcie v príklade sú \emph{\texttt{validates :attribute, \{opts\}}} ktoré vykonávajú validáciu atribútov (v príklade konkrétne, či sú prítomné) vždy pred uložením dát do databázy. Ak validácie zlyhajú tak dáta nie sú uložené.
+
+Ako posledná je v príkladovom modeli definovaná pomocná funkcia na parsovanie id prednášajúcich jednotlivých predmetov. 
+
+\section{Controllers}
+
+Controllery sú najdôžežitejšia časť aplikácie, keďže načítajú dáta z databázy pomocou modelov, zavolajú view, ktorý dáta vykreslí a nakoniec sa vráti výsledok používateľovi. Prejdeme jednotlivé časti controller-a predmetov ktorý je súčasťou aplikácie. Nachádza sa v:
+
+\begin{minted}{bash}
+./app/controllers/courses_controller.rb
+\end{minted}
+
+Hneď po deklarácii triedy vidíme, že controller volá funkcie \emph{\texttt{before\_action}}, ktoré sa nazývajú filtre \citep{web:guides_filters}:
+
+\begin{minted}{ruby}
+before_action :find_course, only: [:show, :edit, :update, :destroy]
+before_action :authenticate_user!
+\end{minted}
+
+Prvá funkcia, volá privátnu funkciu \emph{\texttt{find\_course}}, ktorá načíta do premennej inštancie predmet pomocou modelu a parametru id z tela HTTP požiadavky. Navyše, tento filter je obmedzený hashom \emph{only: [:show...]}, čo obmedzí pred ktorými akciami sa filter vyvolá. To nám zabezpečí, aby sme sa neopakovali pri jednotlivých akciách načítaním predmetu:
+
+\begin{minted}{ruby}
+private
+def find_course
+  @course = Course.find(params[:id])
+end
+\end{minted}
+
+Ako môžeme vidieť aj v ostatné akcie využívajú objekt \emph{params}. V tomto objekte je uložené parsované telo HTTP požiadavky či už ide o GET alebo POST požiadavku a môžeme k jednotlivým položkám pristupovať pomocou symbolov.
+
+Druhý filter volá funkciu \emph{\texttt{authenticate\_user!}}, ktorá je súčasťou balíčka \emph{Devise}, ktorý je použitý na autentifikáciu a tento filter zabezpečí, aby všetky akcie mohol využívať iba prihlásený užívateľ.
+
+Ďalej v controller-i nasledujú jednotlivé akcie, ktoré sú namapované na URL adresy pomocou smerovača. Ako príklad zoberiem akciu \emph{create}:
+
+\begin{minted}{ruby}
+def create
+  @course = Course.new(course_params)
+
+  if @course.save
+    flash[:notice] = "Predmet #{@course.name} bol úspešne vytvorený"
+    redirect_to courses_path
+  else
+    render 'new'
+  end
+end
+\end{minted}
+
+Akcia začína tým, že sa vytvorí nový objekt s pomocou funkcie \emph{\texttt{course\_params}}. Táto funkcia je definovaná na konci súboru controller-a ako privátna metóda:
+
+\begin{minted}{ruby}
+def course_params
+  params.require(:course)
+        .permit(:code, :name, :lectures_weekly, 
+                :classes_weekly, :lab_classes_weekly)
+end
+\end{minted}
+
+Funkcia zaručí, že vráti z objektu \emph{params} iba tie parametre, ktoré povolíme a zadáme do funkcie \emph{.permit(...)}, čím obráni aplikáciu pred nechcenými vstupmi od koncového užívateľa.
+
+Ďalej v tele akcie nasleduje kontrola stavu uloženia. Ak je v modeli všetko v poriadku, validácie prebehnú správne a nevyskytne sa žiadna chyba funkcia nastaví do session jednorázový odkaz, že predmet bol úspešne vytvorený a presmeruje užívateľa na zoznam všetkých predmetov. Ak pri uložení niečo zlyhalo tak sa iba zobrazí formulár ako pri vytváraní predmetu avšak už s vyplnenými hodnotami z predchádzajúceho pokusu (ak nie je definované, že atribút sa nemá zapamätať, ako napríklad heslo).
+
+Na tomto princípe fungujú a majú podobnú štruktúru všetky controller-y a pri vývoji aplikácie som sa vo všetkých controller-och snažil dodržiavať vzor nazvaný REST (Representational state transfer). Ktorý pomáha vytvárať jednotné rozhrania pre webové aplikácie.
 
 \section{Views}
 
+View má v Ruby on Rails zložitú úlohu. Každý view začína spoločnou šablónou (layout), ktorá je definovaná (pokiaľ nie je bližšie špecifikované) v súbore:
 
-\section{Spracovanie úloh na pozadí}
+\begin{minted}{bash}
+./app/views/layouts/application.html.erb
+\end{minted}
+
+Všetky view-y v Ruby on Rails využívajú pri šablónach formát ktorý sa volá Embedded RuBy -- ERB. Tento formát nám poskytuje funkcionalitu, kde môžeme vkladať kúsky kódu Ruby do obyčajného HTML dokumentu.
+
+Potom ako sa view v Ruby on Rails vykreslí je vložený do hlavnej šablóny. Môžeme view-y ďalej rozširovať aj pomocou funkcie \emph{render}
 
 \section{Generovanie PDF prehľadov}
+
+Generovanie PDF dokumentov zabezpečuje balíček \emph{\texttt{wicked\_pdf}}, ktorý je wrapper pre aplikáciu v príkazovom riadku \emph{\texttt{wkhtmltopdf}}. Dokáže prekonvertovať HTML dokument do PDF dokumentu, pričom sa dá naštýlovať dokument naštýlovať pomocou CSS a dokonca aj JavaScriptom. 
+
+V prvej verzii implementácie sa PDF prehľady generovali priamo v okne užívateľa, ale keďže generovanie PDF dokumentov je časovo náročnejšie, užívateľ bol nútený čakať kým sa dokument zobrazí/stiahne. Nakoniec som tento problém vyriešil použitím balíčka \emph{\texttt{delayed\_job}}. Viac o tom to riešení píšem v sekcií \ref{sec:request_time}
+
 \section{Odosielanie e-mailov}
 
 \clearpage
@@ -159,6 +260,7 @@ end
 Pri načítaní modelov použijeme funkciu \emph{includes()} do ktorej môžeme napísať symboly, ktoré reprezentujú jednotlivé vzťahy. Po skontrolovaní logov teraz vidíme, že pri načítaní náhľadu sa teraz spustí iba 1 SQL query.
 
 \subsection{Dlhé časy požiadaviek}
+\label{sec:request_time}
 
 Toto správanie je spôsobené tým, že funkcia v controlleri trvá dlhšie ako je obvyklé a tým zdržiava navrátatenie odpovede užívateľovi.
 Problém sa vyskytol najmä pri odosielaní e-mailov a generovaní PDF prehľadov. Ide o jednoduchý problém, ktorý sa dá vyriešiť niekoľkými spôsobmi. 

@@ -24,6 +24,17 @@ Ruby často používa veľmi obmedzenú interpunkciu, ale niektoré znaky sú po
 
 Tieto znaky uľahčujú čitateľnosť výsledného kódu a umožňujú programátorovi jednoducho rozoznať roly každej premennej. \citep{web:rubylang}
 
+\subsubsection{Funkcie - zátvorky nepotrebné }
+
+Funkcie v Ruby sú zaujímavé z pohľadu, že pri volaní funkcie nemusíme napísať zátvorky funkcie, čiže tieto dve funkcie sú ekvivalentné:
+
+\begin{minted}{ruby}
+redirect_to(courses_path)
+redirect_to courses_path
+\end{minted}
+
+Toto pravidlo platí do istej miery aj pre polia a hash-e, ale len pri ich zadávaní ako parametrov do funkcie. V niektorých prípadoch je však nutné presne vymedziť kde hash začína a končí inak môže vzniknúť problém, že sa funkcia s takým počtom parametrov sa nenájde.
+
 \subsubsection{Symboly}
 
 Symbol na prvý pohľad vyzerá ako premenná, ktorá má pred názvom dvojbodku, napríklad \emph{:user}. Výhodou symbolov je, že ich nie je potrebné deklarovať a v celom programe budú rovnaké. Zoberme nasledujúci príklad:
@@ -67,7 +78,7 @@ end
 
 \subsubsection{Moduly}
 
-Ruby nepodporuje viacnásobnú dedičnosť. Keď chceme aby niekoľko tried implementovalo určitú funkcionalitu musíme využiť \emph{module}. V skratke, Module je kolekcia metód a konštánt. Môžeme ho definovať nasledujúco:
+Ruby nepodporuje viacnásobnú dedičnosť. Keď teda chceme aby trieda implementovala určitú funkcionalitu, ale dedičnosť sme už využili, musíme využiť \emph{Module}. Module je kolekcia metód, konštánt a môžeme ho definovať nasledujúco:
 
 \begin{minted}{ruby}
 module Mod
@@ -77,10 +88,10 @@ module Mod
 end
 \end{minted}
 
-V triede kde požadujeme funkcionalitu modulu potom jednoducho zahrnieme modul pomocou funkcie \emph{include}. Napríklad:
+V triede kde požadujeme funkcionalitu modulu potom jednoducho zahrnieme modul pomocou funkcie \emph{include()}. Napríklad:
 
 \begin{minted}{ruby}
-class MyClass
+class MyClass < ParentClass
     include Mod
 end
 \end{minted}
@@ -149,12 +160,13 @@ Slovo \emph{GENERATOR} zameníme za generátor, podľa toho aký súbor/y chceme
 Ďalej môžeme zadať argumenty, ktoré slúžia na vygenerovanie funkcií, stĺpcov alebo atribútov v závislosti od toho aký generátor máme zvolený.
 
 
+\clearpage
 \section{Prípady použitia}
 
-
-
+\clearpage
 \section{Databáza a entitno-relačný diagram}
 
+\clearpage
 Na perzistentné uloženie dát aplikácie som zvolil databázu SQLite, ktorá má podľa mňa dostatočnú kapacitu a spĺňa všetky požiadavky pre škálu budovanej aplikácie. Má dokonca aj niekoľko výhod:
 
 \begin{itemize}
