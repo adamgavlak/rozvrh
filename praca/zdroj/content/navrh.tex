@@ -58,21 +58,61 @@ $ ruby symbol.rb
 
 \subsubsection{Bloky}
 
-Bloky v Ruby sú inšpirované funkcionálnym programovaním, prinášajú do kódu mnoho flexibility a sú v iných jazykoch nazývané aj \emph{closure}. V Ruby sú veľmi užitočnou vlastnosťou pretože nám umožňujú odoslať blok kódu priamo do funkcie. Definujú sa:
+Blok je v podstate kus programu vložený medzi \emph{do} a \emph{end}. Sú dva spôsoby ako napísať blok:
+
+\begin{itemize}
+    \item Viacriadkový, medzi \emph{do} a \emph{end}
+    \item V jednom riadku, medzi \emph{\{} a \emph{\}}
+\end{itemize}
 
 \begin{minted}{ruby}
-call_block(arg) { |a| puts a }
-# alebo
-call_block(arg) do |a|
-  puts a
+# Viac riadkový blok
+[1, 2, 3].each do |n|
+  puts "Cislo #{n}"
+end
+
+# Jednoriadkový blok
+[1, 2, 3].each { |n| puts "Cislo #{n}" }
+\end{minted}
+
+Obe verzie tohto kódu vypíšu Cislo 1, Cislo 2 a Cislo 3 v poradí. Malé \emph{n}, ktoré vidíme medzi ``absolútnou hodnotou'' je \textbf{parameter bloku} a jeho hodnota v tomto prípade bude číslo v poradí ako sú uložené v poli. Čiže, pri prvej iterácii bude mať hodnotu 1, v ďalšej 2 a v poslednej 3.
+
+\emph{Yield}, je ďalšie kľúčové slovo, ktoré dovoľuje funkciám použiť bloky priamo v tele. Funguje nasledujúco:
+
+\begin{minted}{ruby}
+def moja_funkcia
+  puts "Zaciatok funkcie"
+  yield
+  puts "Koniec funkcie"
+end
+
+# Zavolanie funkcie spolu s blokom
+moja_funkcia do
+  puts "Funkcia je v yield-e"
 end
 \end{minted}
 
-Pre využitie bloku vo funkcii musíme použiť funkciu \emph{yield}. Avšak, ak funkcia používa \emph{yield} ale, žiadny block nebol prijatý tak Ruby vyvolá výnimku. Blok môžeme vo funkcii zavolať nasledujúco:
+Po spustení programu vyššie dostaneme takýto výstup:
+\begin{minted}{bash}
+Zaciatok funkcie
+Funkcia je v yield-e
+Koniec funkcie
+\end{minted}
+
+Čiže, keď funkcia príde k \emph{yield}-u tak program definovaný v bloku funkcie sa spustí a po dokončení bloku funkcia pokračuje ďalej. 
+
+Blok môžeme dodať akejkoľvek funkcii ale ak nemá v tele použitý \emph{yield} tak sa blok nespustí. Naopak, ak je \emph{yield} použitý ale nedodáme blok bude vyvolaná výnimka. Preto ak chceme spraviť dodanie bloku voliteľné musíme použiť \emph{\texttt{block\_given?}} a kontrolovať či bol block dodaný a až vtedy vyvolať \emph{yield}.
+
+\clearpage
+Každý parameter zadaný v \emph{yield} bude posunutý ako parameter bloku pri jeho použití presne v poradí v akom sú zadané do \emph{yield}:
 
 \begin{minted}{ruby}
-def call_block(arg)
-    yield(arg)
+def moja_funkcia
+  yield("Adam", 10)
+end
+
+moja_funkcia do |meno, vek| 
+  puts "#{meno} má #{vek} rokov"
 end
 \end{minted}
 
@@ -82,7 +122,7 @@ Ruby nepodporuje viacnásobnú dedičnosť. Keď teda chceme aby trieda implemen
 
 \begin{minted}{ruby}
 module Mod
-  def call_func(arg)
+  def moja_funkcia(arg)
     puts arg
   end
 end
@@ -166,7 +206,16 @@ Slovo \emph{GENERATOR} zameníme za generátor, podľa toho aký súbor/y chceme
 \clearpage
 \section{Databáza a entitno-relačný diagram}
 
+\begin{figure}[!htb]
+  \centering
+  \hspace*{-0.5cm}
+  \includegraphics[width=0.9\textwidth]{content/images/db}
+  \caption{Entitno-relačný diagram.}
+\end{figure}
+
 \clearpage
+Diagram popisuje ako bude vyzerať výsledná verzia schémy databázy.
+
 Na perzistentné uloženie dát aplikácie som zvolil databázu SQLite, ktorá má podľa mňa dostatočnú kapacitu a spĺňa všetky požiadavky pre škálu budovanej aplikácie. Má dokonca aj niekoľko výhod:
 
 \begin{itemize}
