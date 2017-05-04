@@ -31,7 +31,7 @@ CSS (Cascading Style Sheets) je jazyk štýlovania používaný na popísanie do
 
 \subsection*{JavaScript}
 
-JavaScript je dynamický interpretovaný programovací jazyk s možnosťami objektovo orientovaného programovania, založeného na prototypoch. Najrozšírenejší je ako programovací jazyk na strane klienta webov, kde poskytuje API k tomu ako by sa mala web stránka správať, keď sa vyskytne nejaká udalosť, ale dokáže spravovať aj rôzne iné aspekty a správanie web stránok. \citep{web:javascript}
+JavaScript je dynamický interpretovaný programovací jazyk s možnosťami objektovo orientovaného programovania, založeného na prototypoch. Najrozšírenejší je ako programovací jazyk na strane klienta webov, kde poskytuje API k tomu ako by sa mala web stránka správať, keď sa vyskytne nejaká udalosť, ale dokáže spravovať aj rôzne iné aspekty web stránok. \citep{web:javascript}
 
 \subsubsection*{AJAX}
 
@@ -39,7 +39,7 @@ AJAX (Asynchronous JavaScript + XML) nie je samostatná technológia, ale pojem 
 
 \section{Technológie strany servera}
 
-Na vývoj aplikácie je dôležité vybrať správny nástroj. V dnešnej dobe, je ich na trhu obrovské množstvo, preto je dobré zvoliť taký nástroj, ktorý nám umožní vytvoriť aplikáciu prehľadne, v rozumnom časovom rozsahu, následne ju s prehľadom spravovať a možno aj rozširovať. Technológie na strane servera sú potrebné, keď technológie na strane užívateľa už nedokážu požadovanú funkcionalitu dosiahnuť. Každá technológia má svoje výhody a nevýhody a preto priblížim tie, ktoré poznám najviac.
+Na vývoj webovej aplikácie na strane servera je dôležité vybrať správny nástroj. V dnešnej dobe, je ich na trhu obrovské množstvo, preto je dobré zvoliť taký nástroj, ktorý nám umožní vytvoriť aplikáciu prehľadne, v rozumnom časovom rozsahu, následne ju s prehľadom spravovať a neskôr aj rozširovať. Technológie na strane servera sú potrebné, keď technológie na strane užívateľa už nedokážu požadovanú funkcionalitu dosiahnuť. Každá technológia má svoje výhody a nevýhody a preto priblížim tie, ktoré poznám najviac.
 
 \subsection*{PHP}
 
@@ -47,11 +47,11 @@ PHP (rekurzívna skratka pre PHP: Hypertext Preprocesor) je skriptovací jazyk n
 
 Bolo v ňom vytvorených veľké množstvo úspešných projektov ako napríklad \emph{Wikipedia}, \emph{Facebook} (ktorý už v dnešnej dobe používa vlastnú verziu PHP nazvanú HHVM), \emph{Wordpress} alebo \emph{Yahoo}. Výhodou jazyka PHP je jednoduchosť nasadenia na server, keďže PHP tvorí na trhu väčšinu bežiacich webových aplikácii a drvivá väčšina poskytovateľov hostingu podporuje iba PHP.
 
-V posledných rokoch vzniklo aj niekoľko populárnych frameworkov, ktoré uľahčujú prácu pre vývojárov, keďže nemusia všetku funkcionalitu programovať od začiatku. Najviac známe z týchto frameworkov sú \emph{Laravel}, \emph{Symphony}, alebo \emph{Nette}.
+V posledných rokoch vzniklo aj niekoľko populárnych frameworkov, ktoré uľahčujú prácu pre vývojárov, keďže nemusia všetku funkcionalitu programovať od začiatku. Najviac známe z týchto frameworkov sú \emph{Laravel}, \emph{Symfony}, alebo \emph{Nette}. Navyše, väčšina frameworkov má svoje komponenty dostupné aj oddelene -- príkladom sú ORM systémy \emph{Doctrine} (Symfony) alebo \emph{Eloquent} (Laravel) a šablónové systémy ako \emph{Twig} alebo \emph{Smarty}.
 
 \subsubsection*{Composer}
 
-Composer je správca závislostí vytvorený pre PHP. Umožňuje deklaráciu použitých softvérových knižníc použitých v projekte od ktorých je program závislý a spravuje ich za užívateľa (inštalácia/aktualizovanie). 
+Composer je správca závislostí vytvorený pre PHP. Umožňuje deklaráciu použitých softvérových knižníc v projekte od ktorých je program závislý a spravuje ich za užívateľa (inštalácia/aktualizovanie). 
 
 Všetky závislosti sú definované v súbore \emph{composer.json} a operácie sa dajú vykonávať cez aplikáciu v príkazovom riadku pomocou programu \emph{composer}.
 
@@ -59,31 +59,47 @@ Všetky závislosti sú definované v súbore \emph{composer.json} a operácie s
 
 Python je vysoko úrovňový programovací jazyk navrhnutý pre vývoj softvéru, ktorý môže byť použitý v širokej škále aplikačných domén. Vývoj webových aplikácii je v jazyku Python dosť náročný, pretože používateľ by musel všetkú funkcionalitu naprogramovať sám. Tu ale prichádzajú framework-y, ktoré tento proces výrazne uľahčia a tým robia vývoj webových aplikácii jednoduchší pre širšie publikum vývojárov.
 
-Full-stack frameworky kombinujú rôzne komponenty ako HTTP server, možnosť perzistencie dát do databázy, šablóny... Najznámejšími z full-stack frameworkov sú \emph{Django}, \emph{TurboGears} alebo \emph{web2py}. Ďalšími z populárnych frameworkov, ktoré už nie sú tak vybavené ako full-stack frameworky a užívateľ si môže zvoliť a dodefinovať tieto ďalšie komponenty sú napríklad \emph{Flash} alebo \emph{CherryPy}.
+Full-stack frameworky kombinujú rôzne komponenty ako HTTP server, možnosť perzistencie dát do databázy, šablóny... Najznámejšími z full-stack frameworkov sú \emph{Django} a \emph{Pylons}. Ďalšími z populárnych frameworkov, ktoré už nie sú tak vybavené ako full-stack frameworky, užívateľ si môže zvoliť a dodefinovať ďalšie komponenty sú napríklad \emph{Flask} alebo \emph{CherryPy}. Takýmito komponentami sú napríklad ORM systémy SQLalchemy a PonyORM alebo šablónové systémy Jinja2 a Mako.
 
 \subsubsection*{Pip}
 
-Od verzie 3.4 je Python dodávaný so správcom balíčkov Pip. Balíčky, ktoré sa môžu inštalovať nájdeme na webe Python Package Index (PyPI) na adrese \url{https://pypi.python.org/pypi}. Pip umožňuje inštaláciu spravovanie balíčkov cez konzolovú aplikáciu \emph{pip}
+Python je už dnes dodávaný so správcom balíčkov Pip. Balíčky, ktoré sa môžu inštalovať nájdeme na webe Python Package Index (PyPI) na adrese \url{https://pypi.python.org/pypi}. Pip umožňuje inštaláciu spravovanie balíčkov cez konzolovú aplikáciu a príkaz \emph{pip}.
 
 \subsection*{Ruby}
 
-Ruby, podobne ako Python je programovací jazyk, ktorý môže byť použitý v širokej škále aplikačných domén. A rovnako ako Python, vývoj webových aplikácii v Ruby bez použitia frameworku by bol príliš zložitý a náročný. Najznámejšie z frameworkov sú: \emph{Ruby on Rails}, \emph{Sinatra} a \emph{Padrino}. Ruby on Rails je full-stack framework zatiaľ čo Sinatra a Padrino sú menšie, neobsahujú toľko funkcionality, ale vývojár si môže funkcionalitu jednoduch doplniť pomocou balíčkou nazývaných \emph{Gems}.
+Ruby, podobne ako Python je programovací jazyk, ktorý môže byť použitý v širokej škále aplikačných domén a rovnako ako Python, vývoj webových aplikácii v Ruby bez použitia frameworku by bol príliš zložitý a náročný. Najznámejšie z frameworkov sú: \emph{Ruby on Rails}, \emph{Sinatra} a \emph{Padrino}. Ruby on Rails je full-stack framework zatiaľ čo Sinatra a Padrino sú menšie, neobsahujú toľko funkcionality, ale vývojár si môže funkcionalitu jednoduch doplniť pomocou balíčkou nazývaných \emph{Gems}. Ďalšie balíčky ako ORM systémy sú napríklad \emph{Active Record}, \emph{Sequel} alebo \emph{DataMapper} a systémy šablón \emph{HAML} alebo \emph{Slim}.
 
-\subsubsection*{Ruby}
+\subsubsection*{RubyGems}
 
-RubyGems je správca balíčkov pre jazyk Ruby. Pri vývoji väčších alipkácii je často doplňovaný aplikáciou \emph{bundler}, ktorá umožnuje zapísanie všetkých závislostí do súboru nazývaného \emph{Gemfile}
+RubyGems je správca balíčkov pre jazyk Ruby. Pri vývoji väčších aplikácii je často doplňovaný aplikáciou \emph{bundler}, ktorá umožňuje zapísanie všetkých závislostí do súboru nazývaného \emph{Gemfile}.
 
 
 \section{Databázové riešenia}
 
-Dáta z webovej aplikácie musia byť niekde uložené Databázové riešenia používané pri vývoji webových aplikácii môžeme rozdeliť na dve hlavné kategórie -- relačné databázy a NoSQL (Not only SQL) databázy. Hlavný rozdiel medzi týmito kategóriami je, kedy je užitočné uprednostniť jednu kategóriu pred druhou. NoSQL má niekoľko výhod hlavne v rýchlosti a objeme spracovaných dát, ale kým relačná databáza nespôsobuje spomalenie celej aplikácie tak je dostačujúca a v niektorých prípadoch, výhodnejšia a jednoduchšia. Najznámejšie NoSQL databázy sú \emph{Redis}, \emph{MongoDB} a \emph{CouchDB}.
+Skoro všetky dáta z webovej aplikácie musia byť niekde uložené, preto si potrebujeme zvoliť vhodný databázový systém ktorý nám tento proces uľahčí. Databázové riešenia používané pri vývoji webových aplikácii môžeme rozdeliť na dve hlavné kategórie -- relačné databázy a NoSQL (Not only SQL) databázy.
+
+Relačné databázy ukladajú dáta do kolekcie tabuliek, kde sú dáta ďalej rozdelené na stĺpce tabuľky. Musia mať dopredu definované tabuľky a typy jednotlivých stĺpcov, čo sa nazýva aj schéma, inak nie je možné pridávať dáta. Ponúkajú aj funkcionalitu ako \emph{primárne kľúče} (unikátne identifikátory), \emph{indexy} (štruktúra urýchľujúca vyhľadávanie v tabuľke nad daným stĺpcom), \emph{vzťahy} medzi dátami, \emph{triggery} a uložené \emph{procedúry}.
+
+NoSQL databázy na druhej strane dáta ukladajú dáta len do jednej ``tabuľky'' a nie je potrebné špecifikovať žiadne stĺpce a ani typy. Dáta v NoSQL databáze tiež nie je možné normalizovať, čiže opakujúce sa údaje budú v databáze zaberať miesto navyše. Nie je teda prekvapivé, že NoSQL databáza bude vo väčšine prípadov rýchlejšia.
+
+Zvolenie databázy záleží na návrhu projektu a o požiadavkách pre naše dáta, ale dobre navrhnutá relačná databáza bude takmer určite pracovať lepšie ako zle navrhnutá NoSQL databáza a naopak.
+
+\subsection*{NoSQL databázy}
+
+Najznámejšími NoSQL databázami sú:
+
+\begin{itemize}
+    \item \emph{Redis} (\url{https://redis.io/}) -- založený na ukladaní dátových štruktúr
+    \item \emph{MongoDB} (\url{https://www.mongodb.com/}) -- zameriava sa na ukladanie polo štruktúrovaných dát vo formáte dokumentov
+    \item \emph{CouchDB}  (\url{https://sqlite.org/}) -- open-source a podobne ako \emph{MongoDB} sa zameriava na ukladanie dát vo forme dokumentov
+\end{itemize}
 
 \subsection*{Relačné databázy}
 
 Najznámejšími relačnými databázami sú:
 
 \begin{itemize}
-    \item \emph{MySQL} -- najpopulárnejšia a najviac využívaná relačná databáza
-    \item \emph{PostgreSQL} -- najpokročilejšia a open-source relačná databáza
-    \item \emph{SQLite} -- relačná databáza používaná hlavne pri vstavaných riešeniach a malých webových aplikáciach
+    \item \emph{MySQL} (\url{https://www.mysql.com}) --  najpopulárnejšia a najviac využívaná relačná databáza
+    \item \emph{PostgreSQL} (\url{https://www.postgresql.org}) -- najpokročilejšia a open-source relačná databáza
+    \item \emph{SQLite}  (\url{https://sqlite.org/}) -- relačná databáza používaná hlavne pri vstavaných riešeniach a malých webových aplikáciach
 \end{itemize}
