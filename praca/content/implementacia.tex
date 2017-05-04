@@ -288,11 +288,71 @@ Pred začatím používania aplikácie sa musí užívateľ najprv prihlásiť a
   \centering
   %\hspace*{-1cm}
   %\includegraphics[width=1.1\textwidth]{content/images/login}
-  \includegraphics[width=1\textwidth]{content/images/login}
+  \includegraphics[width=1\textwidth]{content/images/ui/login}
   \caption{Rozhranie pre prihlásenie do aplikácie.}
 \end{figure}
 
 Užívatelia si taktiež môžu prenastaviť heslo pomocou emailu ak ho náhodou zabudli. Na zadaný email sa zašle link na stránku, kde užívateľ môže heslo zmeniť. Registrácia sa navyše dá kedykoľvek vypnúť administrátorom použitím premennej prostredia.
+
+\clearpage
+\subsection{Predmety a skupiny}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=1\textwidth]{content/images/ui/groups}
+  \caption{Prehľad skupín.}
+  \label{fig:groups}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=1\textwidth]{content/images/ui/course_edit}
+  \caption{Formulár predmetu (úprava).}
+  \label{fig:courses}
+\end{figure}
+
+\clearpage
+Prehľad predmetov vyzerá podobne ako na obrázku (obr. \ref{fig:groups}). Prehľady sú zobrazené buď v jednej alebo dvoch tabuľkách vedľa seba podľa počtu údajov v aplikácii, pričom pri každom zázname je možnosť ho upraviť alebo zmazať a nad tabuľkou je tlačidlo, ktoré umožňuje pridať nové záznamy a pri skupinách je možnosť ich importovať z CSV súboru. 
+
+Formuláre skupín a predmetov sú podobné, pričom formulár skupín obsahuje aj \emph{Select box} kde užívateľ môže danej skupine priradiť predmety.
+
+\subsection{Vyučujúci}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=1\textwidth]{content/images/ui/teachers}
+  \caption{Prehľad vyučujúcich.}
+  \label{fig:courses}
+\end{figure}
+
+Prehľad vyučujúcich obsahuje okrem pridania, úpravy a vymazania taktiež prehľad, kde užívateľ môže prezrieť aktuálny prehľad bez toho aby sa musel generovať PDF dokument a v generovaných dokumentoch je celá história vygenerovaných dokumentov. V prehľade dokumentov (obr. \ref{fig:reports}) môže užívateľ vidieť stav generovania a počet odoslaní emailov (ak bol dokument odoslaný), prípadne si môže dokumenty zobraziť a aj ich odoslať, kde len vyplní predmet, telo e-mailu a dokument bude automaticky priložený ako príloha.
+
+\clearpage
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=1\textwidth]{content/images/ui/reports}
+  \caption{Prehľad dokumentov.}
+  \label{fig:reports}
+\end{figure}
+
+Úprava vyučujúceho vyzerá zložitejšie oproti predchádzajúcim formulárom, ale obsahuje iba zopár polí. Užívateľ musí zvoliť, ktoré predmety daný vyučujúci vyučuje, po čom sa následne zobrazia skupiny, ktoré majú priradené tieto predmety a môže následne priradiť ktoré skupiny predmetu vyučujúci vyučuje. Zároveň môže užívateľ označiť pole Select box ``Je prednášajúci'', čo sa odzrkadlí na prehľade úväzkov vyučujúceho (obr. \ref{fig:teacher_show}).
+
+Prehľad úväzkov vyučujúceho navyše využíva čiastočný view, ktorý je použitý aj pri vykreslení a konverzii prehľadu do PDF súboru.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=1\textwidth]{content/images/ui/teacher_edit}
+  \caption{Úprava vyučujúceho.}
+  \label{fig:teacher_edit}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=1\textwidth]{content/images/ui/teacher_show}
+  \caption{Prehľad úväzkov vyučujúceho.}
+  \label{fig:teacher_show}
+\end{figure}
+
 
 \clearpage
 \section{Turbolinks}
