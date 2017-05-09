@@ -1,0 +1,13 @@
+<h1>Importovať skupiny z CSV súboru</h1>
+
+<hr>
+
+<%= form_tag groups_import_path, multipart: true do %>
+  <div class="form-group">
+    <%= file_field_tag :file, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag "Importovať", class: 'btn btn-primary pull-right' %>
+  </div>
+<% end %>

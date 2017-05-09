@@ -7,10 +7,7 @@ class Group < ApplicationRecord
 
     default_scope { order(group_number: :asc) }
 
-    # Migration
-    # t.string :group_number
-
-    # Validations
+    # Validácie
     validates :group_number, presence: true, uniqueness: {case_sensitive: false}
 
     def teacher_group_courses?(teacher_id, course_id)
@@ -20,6 +17,16 @@ class Group < ApplicationRecord
         true
       else
         false
+      end
+    end
+
+    def self.import(file)
+      CSV.foreach(file.path, row_sep: :auto, col_sep: ";") do |row|
+        row.each do |column|
+          if /\d{1}\w{2}[\w\d]{3}/.match(column)
+            Group.create(group_number: column)
+          end
+        end
       end
     end
 end

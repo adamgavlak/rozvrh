@@ -61,4 +61,5 @@ gem 'delayed_job_active_record'
 gem 'devise'
 gem 'octicons_helper'
 gem 'daemons'
+gem 'roo'
 

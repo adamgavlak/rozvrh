@@ -3,21 +3,18 @@ Rails.application.routes.draw do
   devise_for :users
   root "pages#index"
 
-  # Back-end JSON API
   namespace :api do
-    # resources :teachers
-    # resources :courses
-    # resources :groups
-    # post "/teachers/:id/groups"
-
     post "/teacher/group/course", to: "teacher_group_courses#create"
     delete "/teacher/group/course", to: "teacher_group_courses#destroy"
   end
 
-  get "/test/:id", to: "documents#test"
-
+  resources :symbol
   resources :courses
+
+  get "/groups/import", to: "imports#new"
+  post "/groups/import", to: "imports#import"
   resources :groups
+
   resources :teachers do
     resources :reports, controller: "teacher_reports" do
       get "/email", to: "teacher_reports#email"
