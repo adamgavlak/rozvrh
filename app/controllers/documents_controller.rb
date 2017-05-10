@@ -22,8 +22,5 @@ class DocumentsController < ApplicationController
     end
 
     Delayed::Job.enqueue ::GeneratePdfJob.new(doc.id)
-
-
   end
-
 end

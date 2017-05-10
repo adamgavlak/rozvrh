@@ -4,15 +4,18 @@ class TeachersController < ApplicationController
 
   helper_method :sort_column, :sort_direction
 
+  # Prehľad vyučujúcich
   def index
     @teachers = Teacher.order(sort_column + " " + sort_direction).all
   end
 
+  # Formulár nového vyučujúceho
   def new
     @teacher = Teacher.new
     @tgc = @teacher.teacher_group_courses
   end
 
+  # Vytvorenie nového vyučujúceho
   def create
     @teacher = Teacher.new(teacher_params)
 
@@ -25,6 +28,7 @@ class TeachersController < ApplicationController
     end
   end
 
+  # Prehľad vyučujúceho
   def show
     @total = 0
     multipliers = Multiplier.all()
@@ -48,10 +52,12 @@ class TeachersController < ApplicationController
     end
   end
 
+  # Formulár úpravy vyučujúceho
   def edit
     @tgc = @teacher.teacher_group_courses
   end
 
+  # Úprava vyučujúceho
   def update
     if @teacher.update_attributes(teacher_params)
       update_lecturer_status()
@@ -64,6 +70,7 @@ class TeachersController < ApplicationController
     end
   end
 
+  # Odstránenie vyučujúceho
   def destroy
     @teacher.destroy
 
@@ -103,6 +110,7 @@ class TeachersController < ApplicationController
     Delayed::Job.enqueue ::GeneratePdfJob.new(doc.id)
   end
 
+  # Priradenie prednášajúcich predmetov
   def update_lecturer_status
     ids = params[:teacher][:lecturer_ids]
 

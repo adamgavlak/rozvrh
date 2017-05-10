@@ -2,14 +2,17 @@ class CoursesController < ApplicationController
   before_action :find_course, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
+  # Prehľad predmetov
   def index
     @courses = Course.all
   end
 
+  # Formulár nového predmetu
   def new
     @course = Course.new
   end
 
+  # Vytvorenie nového predmetu
   def create
     @course = Course.new(course_params)
 
@@ -21,12 +24,15 @@ class CoursesController < ApplicationController
     end
   end
 
+  # Prehľad predmetu
   def show
   end
 
+  # Formulár úpravy predmetu
   def edit
   end
 
+  # Úprava predmetu
   def update
     if @course.update_attributes(course_params)
       flash[:notice] = "Predmet #{@course.name} bol upravený"
@@ -36,6 +42,7 @@ class CoursesController < ApplicationController
     end
   end
 
+  # Zmazanie predmetu
   def destroy
     @course.destroy
 
@@ -44,15 +51,17 @@ class CoursesController < ApplicationController
   end
 
   private
+  # Whitlisting parametrov z requestu
   def course_params
     params.require(:course).permit(:code, :name, :lectures_weekly, :classes_weekly, :lab_classes_weekly)
   end
 
+  # Nájdenie predmetu
   def find_course
     @course = Course.find(params[:id])
   end
 
-  # Migration table:
+  # Migrácia:
   # t.string :code, null: false
   # t.integer :lectures_weekly
   # t.integer :classes_weekly
