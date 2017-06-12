@@ -11,7 +11,7 @@
       <td rowspan="2" class="tdmiddle">Kód</td>
       <td rowspan="2" style="vertical-align: middle">Meno</td>
       <td colspan="3" align="center">Hodín týždenne</td>
-      <td colspan="2" rowspan="2" align="center">Akcie</td>
+      <td colspan="3" rowspan="2" align="center">Akcie</td>
     </tr>
     <tr>
       <td align="right">Prednášky</td>
@@ -28,6 +28,11 @@
         <td align="right"><%= course.lectures_weekly %></td>
         <td align="right"><%= course.classes_weekly %></td>
         <td align="right"><%= course.lab_classes_weekly %></td>
+        <td align="center">
+          <%= link_to course_path(course) do %>
+            <span class="glyphicon glyphicon-search"></span> Prehľad
+          <% end %>
+        </td>
         <td align="center">
           <%= link_to edit_course_path(course) do %>
             <span class="glyphicon glyphicon-pencil"></span> Upraviť

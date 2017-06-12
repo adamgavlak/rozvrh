@@ -1,2 +1,48 @@
-<h1>Courses#show</h1>
-<p>Find me in app/views/courses/show.html.erb</p>
+<h1>Prehľad úväzkov vyučujúcich predmetu <%= @course.name %></h1>
+
+<hr>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Vyučujúci</th>
+      <th>Úväzky</th>
+      <th style="text-align: right;">Hodnota úväzku pre daný predmet</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @course.teachers.each do |teacher| %>
+        <tr>
+            <td style="vertical-align: middle"><%= teacher.name %></td>
+            <td>
+              <% teacher.teacher_courses.each do |tc| %>
+              <% if tc.course.id == @course.id %>
+                <% if tc.is_lecturer %>
+                  <div class="uvazok">
+                  Prednášky
+                  </div>
+                <% end %>
+
+                <% tc.course.groups.each do |group| %>
+                  <% if teacher.teacher_group_courses.any? { |el| el.group_id == group.id && el.course_id == tc.course_id } %>
+                    <% if tc.course.classes_weekly > 0 %>
+                      <div class="uvazok">
+                      C - <%= group.group_number %>
+                      </div>
+                    <% end %>
+
+                    <% if tc.course.lab_classes_weekly > 0 %>
+                      <div class="uvazok">
+                      L - <%= group.group_number %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% end %>
+            </td>
+          <td align="right" style="vertical-align: middle"><%= teacher.total(@course) %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>

@@ -26,6 +26,11 @@ class CoursesController < ApplicationController
 
   # Prehľad predmetu
   def show
+    multipliers = Multiplier.all()
+    @lecture = multipliers.find { |el| el.name == 'Prednáška'}.value
+    @classes = multipliers.find { |el| el.name == 'Cvičenie'}.value
+    @labs = multipliers.find { |el| el.name == 'Laboratórne cvičenie'}.value
+    @weeks = 13
   end
 
   # Formulár úpravy predmetu
